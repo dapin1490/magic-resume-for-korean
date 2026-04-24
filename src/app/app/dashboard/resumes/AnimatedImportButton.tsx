@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Braces } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ interface AnimatedImportButtonProps {
 }
 
 export const AnimatedImportButton = ({ onClick, t }: AnimatedImportButtonProps) => {
-    const [isHovered, setIsHovered] = React.useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
         <motion.div

@@ -91,6 +91,26 @@ This will:
 - Automatically build the application image
 - Start the container in the background
 
+### Docker Compose (Development with Live Reload)
+
+Use the development override file to enable real-time updates while editing code:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
+Run in background:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+```
+
+Stop development containers:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+```
+
 
 ## 📝 License and Commercial Use
 

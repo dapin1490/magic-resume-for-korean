@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import {
@@ -44,15 +44,15 @@ export const ResumeCardItem = ({
     deleteResume,
     index,
 }: ResumeCardItemProps) => {
-    const containerRef = React.useRef<HTMLDivElement>(null);
-    const [scale, setScale] = React.useState(0.24);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [scale, setScale] = useState(0.24);
     const activeTemplate =
         DEFAULT_TEMPLATES.find((template) => template.id === resume.templateId) ??
         DEFAULT_TEMPLATES[0];
     const templateNameKey =
         activeTemplate.id === "left-right" ? "leftRight" : activeTemplate.id;
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!containerRef.current) return;
         const observer = new ResizeObserver((entries) => {
             const { width } = entries[0].contentRect;

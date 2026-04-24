@@ -131,6 +131,102 @@ const FONT_DEFINITIONS: FontDefinition[] = [
         style: "normal"
       }
     ]
+  },
+  {
+    labelKey: "nanumgothic",
+    value: "\"Nanum Gothic\", sans-serif",
+    aliases: [
+      "\"Nanum Gothic\", sans-serif",
+      "Nanum Gothic, sans-serif"
+    ],
+    sources: [
+      {
+        family: "Nanum Gothic",
+        url: "/fonts/NANUMGOTHIC.TTF",
+        format: "truetype",
+        weight: "400",
+        style: "normal"
+      },
+      {
+        family: "Nanum Gothic",
+        url: "/fonts/NANUMGOTHICBOLD.TTF",
+        format: "truetype",
+        weight: "700",
+        style: "normal"
+      }
+    ]
+  },
+  {
+    labelKey: "nanummyeongjo",
+    value: "\"Nanum Myeongjo\", serif",
+    aliases: [
+      "\"Nanum Myeongjo\", serif",
+      "Nanum Myeongjo, serif"
+    ],
+    sources: [
+      {
+        family: "Nanum Myeongjo",
+        url: "/fonts/NANUMMYEONGJO.TTF",
+        format: "truetype",
+        weight: "400",
+        style: "normal"
+      },
+      {
+        family: "Nanum Myeongjo",
+        url: "/fonts/NANUMMYEONGJOBOLD.TTF",
+        format: "truetype",
+        weight: "700",
+        style: "normal"
+      }
+    ]
+  },
+  {
+    labelKey: "notosanskr",
+    value: "\"Noto Sans KR\", sans-serif",
+    aliases: [
+      "\"Noto Sans KR\", sans-serif",
+      "Noto Sans KR, sans-serif"
+    ],
+    sources: [
+      {
+        family: "Noto Sans KR",
+        url: "/fonts/NOTOSANSKR-VF.TTF",
+        format: "truetype",
+        weight: "400",
+        style: "normal"
+      },
+      {
+        family: "Noto Sans KR",
+        url: "/fonts/NOTOSANSKR-VF.TTF",
+        format: "truetype",
+        weight: "700",
+        style: "normal"
+      }
+    ]
+  },
+  {
+    labelKey: "pretendard",
+    value: "\"Pretendard\", sans-serif",
+    aliases: [
+      "\"Pretendard\", sans-serif",
+      "Pretendard, sans-serif"
+    ],
+    sources: [
+      {
+        family: "Pretendard",
+        url: "/fonts/Pretendard-Regular.ttf",
+        format: "truetype",
+        weight: "400",
+        style: "normal"
+      },
+      {
+        family: "Pretendard",
+        url: "/fonts/Pretendard-Bold.ttf",
+        format: "truetype",
+        weight: "700",
+        style: "normal"
+      }
+    ]
   }
 ];
 

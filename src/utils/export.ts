@@ -1,10 +1,26 @@
 import { toast } from "sonner";
 import { PDF_EXPORT_CONFIG } from "@/config";
-import { normalizeFontFamily } from "@/utils/fonts";
+import { getFontFaceCss, normalizeFontFamily } from "@/utils/fonts";
 import { ResumeData } from "@/types/resume";
 import { generateResumeMarkdown, ResumeMarkdownOptions } from "@/utils/markdown";
 
 const INVALID_FILE_NAME_CHAR_REGEX = /[\\/:*?"<>|]/g;
+const MAX_INLINE_FONT_FACE_CSS_LENGTH = 8_000_000;
+
+const FONT_FACE_BLOCK_REGEX = /@font-face\s*\{[\s\S]*?\}/g;
+
+const pickCompactFontFaceCss = (fontFaceCss: string) => {
+  const fontFaceBlocks = fontFaceCss.match(FONT_FACE_BLOCK_REGEX);
+  if (!fontFaceBlocks || fontFaceBlocks.length <= 1) {
+    return fontFaceCss;
+  }
+
+  const regularWeightBlock = fontFaceBlocks.find((block) =>
+    /font-weight:\s*400\b/.test(block)
+  );
+
+  return regularWeightBlock || fontFaceBlocks[0];
+};
 
 const getSafeFileName = (title?: string) => {
   const normalized = (title || "resume")
@@ -220,13 +236,21 @@ export const exportToPdf = async ({
       line.style.display = "none";
     });
 
-    const [capturedStyles] = await Promise.all([
+    const [capturedStyles, inlineFontFaceStyles] = await Promise.all([
       getOptimizedStyles(),
+      getFontFaceCss(selectedFontFamily, true),
       optimizeImages(clonedElement)
     ]);
 
+    const compactInlineFontFaceStyles = pickCompactFontFaceCss(inlineFontFaceStyles);
+    const fontFaceStyles =
+      compactInlineFontFaceStyles.length <= MAX_INLINE_FONT_FACE_CSS_LENGTH
+        ? compactInlineFontFaceStyles
+        : await getFontFaceCss(selectedFontFamily, false);
+
     // 注入 PdfExport.tsx 中的样式增强
     const styles = `
+      ${fontFaceStyles}
       ${capturedStyles}
       html, body { background: white !important; background-color: white !important; }
       html, body, #${elementId} {
@@ -251,7 +275,10 @@ export const exportToPdf = async ({
     });
 
     if (!response.ok) {
-      throw new Error(`PDF generation failed: ${response.status}`);
+      const responseBody = await response.text().catch(() => "");
+      throw new Error(
+        `PDF generation failed: ${response.status}${responseBody ? ` - ${responseBody.slice(0, 300)}` : ""}`
+      );
     }
 
     const blob = await response.blob();

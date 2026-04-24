@@ -7,30 +7,54 @@ export function cn(...inputs: ClassValue[]) {
 
 const DATE_RANGE_SEPARATOR = " - ";
 
-function parseToDate(dateStr: string): Date | null {
+type ParsedDate = {
+  date: Date;
+  hasDay: boolean;
+};
+
+function parseToDate(dateStr: string): ParsedDate | null {
   let year: number | null = null;
   let month: number | null = null;
+  let day: number | null = null;
+  let hasDay = false;
 
   if (dateStr.match(/^\d{4}-\d{2}$/)) {
     const parts = dateStr.split("-");
     year = parseInt(parts[0], 10);
     month = parseInt(parts[1], 10);
-  } else if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+  } else if (dateStr.match(/^\d{4}-\d{2}-\d{1,2}$/)) {
     const parts = dateStr.split("-");
     year = parseInt(parts[0], 10);
     month = parseInt(parts[1], 10);
+    day = parseInt(parts[2], 10);
+    hasDay = true;
   } else if (dateStr.match(/^\d{4}\.\d{2}$/)) {
     const parts = dateStr.split(".");
     year = parseInt(parts[0], 10);
     month = parseInt(parts[1], 10);
+  } else if (dateStr.match(/^\d{4}\.\d{2}\.\d{1,2}$/)) {
+    const parts = dateStr.split(".");
+    year = parseInt(parts[0], 10);
+    month = parseInt(parts[1], 10);
+    day = parseInt(parts[2], 10);
+    hasDay = true;
   } else if (dateStr.match(/^\d{4}\/\d{2}$/)) {
     const parts = dateStr.split("/");
     year = parseInt(parts[0], 10);
     month = parseInt(parts[1], 10);
+  } else if (dateStr.match(/^\d{4}\/\d{2}\/\d{1,2}$/)) {
+    const parts = dateStr.split("/");
+    year = parseInt(parts[0], 10);
+    month = parseInt(parts[1], 10);
+    day = parseInt(parts[2], 10);
+    hasDay = true;
   }
 
   if (year !== null && month !== null) {
-      return new Date(Date.UTC(year, month - 1, 1));
+      return {
+          date: new Date(Date.UTC(year, month - 1, day ?? 1)),
+          hasDay,
+      };
   }
   return null;
 }
@@ -47,15 +71,13 @@ export function formatDateString(dateStr: string | undefined, locale: string = "
   if (!date) return dateStr;
 
   try {
-      if (locale === "zh" || locale === "zh-CN") {
-          return `${date.getUTCFullYear()}/${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+      const year = date.date.getUTCFullYear();
+      const month = String(date.date.getUTCMonth() + 1).padStart(2, "0");
+      if (!date.hasDay) {
+          return `${year}/${month}`;
       }
-      const formatter = new Intl.DateTimeFormat(locale, { 
-          year: 'numeric', 
-          month: '2-digit',
-          timeZone: 'UTC' 
-      });
-      return formatter.format(date);
+      const day = String(date.date.getUTCDate()).padStart(2, "0");
+      return `${year}/${month}/${day}`;
   } catch (e) {
       return dateStr;
   }

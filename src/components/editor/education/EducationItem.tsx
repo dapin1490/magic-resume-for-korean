@@ -73,14 +73,14 @@ const EducationEditor: React.FC<EducationEditorProps> = ({
             value={education.startDate}
             onChange={(value) => handleChange("startDate", value)}
             type="date"
-            placeholder="YYYY-MM"
+            placeholder="YYYY/MM 또는 YYYY/MM/DD"
           />
           <Field
             label={t("labels.endDate")}
             value={education.endDate}
             onChange={(value) => handleChange("endDate", value)}
             type="date"
-            placeholder="YYYY-MM"
+            placeholder="YYYY/MM 또는 YYYY/MM/DD"
             showPresentSwitch={true}
           />
         </div>

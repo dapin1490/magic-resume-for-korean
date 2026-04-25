@@ -11,6 +11,7 @@ import { NextIntlClientProvider } from "@/i18n/compat/client";
 import { useEffect } from "react";
 import zhMessages from "@/i18n/locales/zh.json";
 import enMessages from "@/i18n/locales/en.json";
+import koMessages from "@/i18n/locales/ko.json";
 import { Providers } from "@/app/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { getPreferredLocale } from "@/i18n/runtime";
@@ -45,7 +46,8 @@ function RootComponent() {
     select: (location) => location.pathname
   });
   const locale = getPreferredLocale(pathname);
-  const messages = locale === "en" ? enMessages : zhMessages;
+  const messages =
+    locale === "en" ? enMessages : locale === "ko" ? koMessages : zhMessages;
 
   useEffect(() => {
     document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000`;

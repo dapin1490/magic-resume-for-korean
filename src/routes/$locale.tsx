@@ -3,6 +3,7 @@ import LandingPage from "@/app/(public)/[locale]/page";
 import { defaultLocale, locales, type Locale } from "@/i18n/config";
 import zhMessages from "@/i18n/locales/zh.json";
 import enMessages from "@/i18n/locales/en.json";
+import koMessages from "@/i18n/locales/ko.json";
 
 const SEO_BASE_URL = "https://magicv.art";
 
@@ -14,19 +15,21 @@ function resolveLocale(rawLocale: string): Locale {
 }
 
 function getLocaleSeo(locale: Locale) {
-  const messages = locale === "en" ? enMessages : zhMessages;
+  const messages =
+    locale === "en" ? enMessages : locale === "ko" ? koMessages : zhMessages;
   const title = `${messages.common.title} - ${messages.common.subtitle}`;
   const description = messages.common.description;
-  const localeTag = locale === "en" ? "en_US" : "zh_CN";
+  const localeTag =
+    locale === "en" ? "en_US" : locale === "ko" ? "ko_KR" : "zh_CN";
   const canonical = `${SEO_BASE_URL}/${locale}`;
-  const alternateLocale = locale === "en" ? "zh" : "en";
+  const alternateLocale = locales.filter((item) => item !== locale);
 
   return {
     title,
     description,
     localeTag,
     canonical,
-    alternateLocale
+    alternateLocale,
   };
 }
 
@@ -55,11 +58,11 @@ export const Route = createFileRoute("/$locale")({
       links: [
         { rel: "canonical", href: seo.canonical },
         { rel: "alternate", hrefLang: locale, href: seo.canonical },
-        {
-          rel: "alternate",
-          hrefLang: seo.alternateLocale,
-          href: `${SEO_BASE_URL}/${seo.alternateLocale}`
-        },
+        ...seo.alternateLocale.map((item) => ({
+          rel: "alternate" as const,
+          hrefLang: item,
+          href: `${SEO_BASE_URL}/${item}`,
+        })),
         { rel: "alternate", hrefLang: "x-default", href: `${SEO_BASE_URL}/zh` }
       ]
     };

@@ -5,7 +5,7 @@ export const runtime = "edge";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://magicv.art/";
 
-  const routes = ["zh", "en"];
+  const routes = ["zh", "en", "ko"];
 
   const sitemap: MetadataRoute.Sitemap = routes.map((route) => ({
     url: `${baseUrl}${route}`,

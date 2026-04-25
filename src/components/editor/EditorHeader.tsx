@@ -6,6 +6,7 @@ import { useRouter } from "@/lib/navigation";
 import { Input } from "@/components/ui/input";
 import PdfExport from "../shared/PdfExport";
 import ThemeToggle from "../shared/ThemeToggle";
+import LanguageSwitch from "@/components/shared/LanguageSwitch";
 import { useResumeStore } from "@/store/useResumeStore";
 import { getThemeConfig } from "@/theme/themeConfig";
 import { useGrammarCheck } from "@/hooks/useGrammarCheck";
@@ -155,6 +156,7 @@ export function EditorHeader({ isMobile }: EditorHeaderProps) {
             placeholder="Resume title"
           />
 
+          <LanguageSwitch />
           <ThemeToggle></ThemeToggle>
           <div className="md:flex items-center ">
             <PdfExport />

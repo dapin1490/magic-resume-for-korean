@@ -21,6 +21,7 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip";
 import Logo from "@/components/shared/Logo";
+import LanguageSwitch from "@/components/shared/LanguageSwitch";
 import { useLocale, useTranslations } from "@/i18n/compat/client";
 
 interface MenuItem {
@@ -169,8 +170,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <SidebarFooter />
         </Sidebar>
         <main className="flex-1 flex flex-col">
-          <div className="p-2">
+          <div className="p-2 flex items-center justify-between">
             <SidebarTrigger />
+            <LanguageSwitch />
           </div>
           <div className="flex-1">{children}</div>
         </main>

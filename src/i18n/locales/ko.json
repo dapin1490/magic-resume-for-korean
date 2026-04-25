@@ -1,0 +1,828 @@
+{
+  "common": {
+    "title": "매직 이력서",
+    "subtitle": "AI 기반 이력서 편집기",
+    "description": "매직 이력서는 오픈소스 이력서 편집기입니다. 무료이며 프라이버시를 우선합니다. 회원가입이나 로그인이 필요 없고, 데이터는 로컬에 저장됩니다. 데이터 내보내기와 백업을 지원해 이력서 데이터를 언제든 사용할 수 있습니다.",
+    "dashboard": "대시보드",
+    "edit": "편집",
+    "delete": "삭제",
+    "newResume": "새 이력서",
+    "copy": "복제",
+    "cancel": "취소",
+    "confirm": "확인",
+    "deleteSuccess": "삭제 완료",
+    "deleteModuleConfirm": "이 모듈을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    "configured": "설정됨",
+    "notConfigured": "설정되지 않음"
+  },
+  "home": {
+    "header": {
+      "title": "매직 이력서",
+      "startButton": "시작하기",
+      "features": "기능",
+      "pricing": "요금",
+      "about": "소개",
+      "login": "로그인",
+      "register": "회원가입",
+      "dashboard": "콘솔"
+    },
+    "hero": {
+      "badge": "무료 이력서 제작",
+      "title": "이력서 작성을 더 쉽고 똑똑하게",
+      "subtitle": "매직 이력서는 AI 기술로 전문적인 이력서를 빠르게 만들 수 있게 도와줍니다. 가입 없이 무료로 사용할 수 있고, 데이터는 안전하게 저장됩니다.",
+      "cta": "지금 시작",
+      "secondary": "템플릿 보기"
+    },
+    "features": {
+      "title": "왜 매직 이력서인가요?",
+      "subtitle": "구직 과정을 더 매끄럽게 만드는 올인원 이력서 솔루션을 제공합니다",
+      "ai": {
+        "badge": "AI 기반",
+        "title": "지능형 감지, 전문적인 제안",
+        "description": "지능형 문법 검사 기능이 내장되어 부적절한 표현을 자동으로 감지하고 전문적인 수정 제안을 제공합니다.",
+        "item1": "지능형 다듬기",
+        "item1_description": "AI가 문장을 자동으로 다듬어 더 전문적인 이력서를 만듭니다",
+        "item2": "문법 검사",
+        "item2_description": "문법 및 맞춤법 오류를 자동으로 감지하고 수정합니다"
+      },
+      "storage": {
+        "badge": "개인정보 보호",
+        "title": "데이터 보안, 프라이버시 우선",
+        "description": "모든 이력서 데이터는 로컬 기기에 저장되며 개인정보 유출을 걱정할 필요가 없습니다. 데이터 내보내기와 백업을 지원합니다.",
+        "item1": "로컬 파일 저장",
+        "item1_description": "이력서 데이터가 PC 저장소에 안전하게 저장됩니다",
+        "item2": "다양한 내보내기 형식",
+        "item2_description": "PDF와 JSON 형식 내보내기를 지원합니다",
+        "item3": "데이터 백업 지원"
+      },
+      "preview": {
+        "badge": "실시간 미리보기",
+        "title": "보는 대로 작성",
+        "description": "편집과 동시에 결과를 실시간으로 확인할 수 있습니다. 다양한 전문 템플릿을 지원하며 PDF로 빠르게 내보낼 수 있습니다.",
+        "item1": "편집 결과 실시간 미리보기",
+        "item2": "다양한 내보내기 형식 지원"
+      }
+    },
+    "news": {
+      "label": "소식",
+      "content": "새로운 AI 이력서 최적화 기능이 출시되었습니다"
+    },
+    "cta": {
+      "title": "새로운 커리어를 시작하세요",
+      "description": "지금 매직 이력서를 사용해 인상적인 이력서를 만들어보세요",
+      "button": "무료로 시작하기"
+    },
+    "footer": {
+      "copyright": " 2025 매직 이력서. 모든 권리 보유."
+    },
+    "changelog": "업데이트 내역",
+    "faq": {
+      "title": "자주 묻는 질문",
+      "items": [
+        {
+          "question": "매직 이력서는 유료인가요?",
+          "answer": "현재 매직 이력서는 무료이며 기본적인 이력서 작성 요구를 충족합니다. 오픈소스 버전의 기능은 유지됩니다."
+        },
+        {
+          "question": "이력서 데이터는 안전한가요?",
+          "answer": "네, 안전합니다. 모든 데이터는 로컬에 저장되며 클라우드에 업로드되지 않습니다."
+        },
+        {
+          "question": "어떤 형식으로 내보낼 수 있나요?",
+          "answer": "현재 PDF 내보내기를 지원하며, 향후 더 많은 형식을 지원할 예정입니다."
+        },
+        {
+          "question": "기기 간 동기화는 어떻게 하나요?",
+          "answer": "JSON 설정을 내보내어 다른 기기에서 불러올 수 있습니다."
+        },
+        {
+          "question": "커스터마이징은 얼마나 가능한가요?",
+          "answer": "색상, 레이아웃 등 다양한 사용자 설정을 지원합니다."
+        }
+      ]
+    }
+  },
+  "dashboard": {
+    "sidebar": {
+      "appName": "매직 이력서",
+      "resumes": "내 이력서",
+      "settings": "일반 설정",
+      "templates": "이력서 템플릿",
+      "ai": "AI 제공자"
+    },
+    "resumes": {
+      "created": "생성일",
+      "synced": "백업 폴더",
+      "view": "보기",
+      "myResume": "내 이력서",
+      "create": "새 이력서",
+      "newResume": "새 이력서",
+      "newResumeDescription": "새 이력서를 생성해 시작하세요.",
+      "import": "이력서 가져오기",
+      "untitled": "제목 없는 이력서",
+      "importSuccess": "설정 가져오기 성공",
+      "importError": "설정 가져오기 실패, 파일 형식을 확인하세요",
+      "importDialog": {
+        "title": "이력서 가져오기",
+        "jsonTitle": "JSON 가져오기",
+        "jsonDescription": "내보낸 이력서 설정 파일(.json) 가져오기",
+        "pdfTitle": "PDF 가져오기",
+        "pdfDescription": "Gemini로 이력서 구조를 자동 인식",
+        "importing": "가져오는 중입니다. 잠시만 기다려주세요...",
+        "geminiConfigRequired": "AI 제공자 설정에서 Gemini API Key와 모델 ID를 먼저 설정하세요",
+        "pdfSuccess": "PDF 가져오기 성공",
+        "pdfError": "PDF 가져오기 실패, PDF 내용 또는 Gemini 설정을 확인하세요"
+      },
+      "notice": {
+        "title": "안내",
+        "description": "브라우저 캐시 삭제 시 데이터 손실을 방지하려면 설정에서 이력서 백업 폴더를 구성하는 것을 권장합니다",
+        "goToSettings": "설정으로 이동"
+      },
+      "deleteConfirmTitle": "이력서를 삭제하시겠습니까?",
+      "deleteConfirmDescription": "이 작업은 되돌릴 수 없습니다. 이력서와 기기의 데이터가 영구 삭제됩니다.",
+      "createDialog": {
+        "title": "새 이력서",
+        "description": "빈 템플릿에서 새 이력서를 시작하세요",
+        "tabs": {
+          "fromTemplate": "템플릿에서 시작",
+          "uploadFile": "파일 업로드"
+        },
+        "namePlaceholder": "이름",
+        "switchTemplate": "템플릿 전환",
+        "cancel": "취소",
+        "create": "생성",
+        "blankTitle": "빈 이력서",
+        "startFromBlank": "빈 이력서로 시작",
+        "startFromTemplate": "템플릿으로 시작",
+        "blankCardDescription": "기본 템플릿에서 시작하며 내용은 비어 있습니다.",
+        "blankThumbnailDescription": "어떤 사전 설정에도 구애받지 않고 완전히 자유롭게 이력서를 작성할 수 있습니다.",
+        "createNow": "지금 생성",
+        "backToGrid": "템플릿 목록으로 돌아가기",
+        "blankPreviewDescription": "완전히 빈 상태에서 시작해 원하는 스타일로 작성하세요.",
+        "useThisTemplate": "이 템플릿으로 시작",
+        "sample": {
+          "company": "Google",
+          "position": "시니어 소프트웨어 엔지니어",
+          "present": "재직 중",
+          "workDescription": "프론트엔드 팀을 리드하고 페이지 성능을 40% 향상"
+        }
+      }
+    },
+    "settings": {
+      "title": "설정",
+      "syncDirectory": {
+        "title": "동기화 폴더",
+        "description": "이력서를 동기화하고 백업할 폴더를 선택하세요.",
+        "currentSyncFolder": "현재 동기화 폴더",
+        "noFolderConfigured": "동기화 폴더가 설정되지 않았습니다",
+        "changeFolder": "폴더 변경",
+        "selectFolder": "폴더 선택"
+      },
+      "sync": {
+        "title": "동기화 폴더",
+        "description": "이력서를 동기화하고 백업할 폴더를 선택하세요.",
+        "select": "폴더 선택"
+      },
+      "ai": {
+        "title": "AI 설정",
+        "currentModel": "현재 모델",
+        "selectModel": "모델 선택",
+        "getApiKey": "API Key 발급받기",
+        "doubao": {
+          "title": "Doubao",
+          "description": "화산엔진에서 API Key 발급",
+          "apiKey": "API Key",
+          "modelId": "모델 ID"
+        },
+        "deepseek": {
+          "title": "DeepSeek",
+          "description": "DeepSeek 플랫폼에서 API Key 발급",
+          "apiKey": "API Key"
+        },
+        "openai": {
+          "title": "OpenAI",
+          "description": "OpenAI 또는 OpenAI 호환 플랫폼에서 API Key 발급",
+          "apiKey": "API Key",
+          "modelId": "모델 ID",
+          "apiEndpoint": "API 엔드포인트, 예: https://openai.example.org/v1"
+        },
+        "gemini": {
+          "title": "Gemini",
+          "description": "문장 다듬기, 문법 검사, PDF 이미지 이력서 가져오기를 지원합니다. 권장 모델 ID: gemini-flash-latest",
+          "apiKey": "Gemini API Key",
+          "modelId": "Gemini 모델 ID"
+        }
+      }
+    },
+    "templates": {
+      "title": "템플릿",
+      "useTemplate": "이 템플릿 사용",
+      "preview": "미리보기",
+      "switchTemplate": "템플릿 전환",
+      "classic": {
+        "name": "클래식",
+        "description": "전통적이고 간결한 레이아웃으로 대부분의 채용 지원에 적합합니다"
+      },
+      "modern": {
+        "name": "2단 레이아웃",
+        "description": "개인 특징을 강조하는 클래식 2단 구성"
+      },
+      "leftRight": {
+        "name": "섹션 제목 배경형",
+        "description": "섹션 제목 배경을 강조한 스타일"
+      },
+      "timeline": {
+        "name": "타임라인 레이아웃",
+        "description": "경력의 시간 순서를 강조하는 타임라인 스타일"
+      },
+      "minimalist": {
+        "name": "미니멀",
+        "description": "여백이 넓고 깔끔한 레이아웃 스타일"
+      },
+      "elegant": {
+        "name": "엘레강트",
+        "description": "중앙 정렬 단일 컬럼과 고급스러운 구분선"
+      },
+      "creative": {
+        "name": "크리에이티브",
+        "description": "시각적 대비로 개성을 살린 디자인"
+      },
+      "editorial": {
+        "name": "에디토리얼",
+        "description": "세리프와 산세리프를 조합한 고급스러운 스타일"
+      }
+    }
+  },
+  "pdfExport": {
+    "modal": {
+      "title": "이력서 내보내기",
+      "subtitle": "원하는 내보내기 형식을 선택하세요",
+      "pdfDesc": "고정밀 렌더링으로 형식을 정확하게 유지합니다. 정식 제출에 권장됩니다.",
+      "printDesc": "시스템 인쇄 기능으로 PDF 저장. 렌더링이 혼잡할 때의 대체 방법입니다.",
+      "jsonDesc": "설정 백업 파일을 저장합니다. 기기 변경 시 복원할 수 있습니다.",
+      "markdownDesc": "Markdown 형식으로 변환해 다른 편집기나 AI 도구에서 활용하기 쉽습니다."
+    },
+    "button": {
+      "export": "내보내기",
+      "exportPdf": "PDF",
+      "exportJson": "JSON 설정",
+      "exportMarkdown": "Markdown",
+      "exporting": "내보내는 중...",
+      "exportingJson": "내보내는 중...",
+      "exportingMarkdown": "내보내는 중...",
+      "print": "PDF(백업)"
+    },
+    "toast": {
+      "success": "PDF 내보내기 성공",
+      "error": "PDF 내보내기 실패",
+      "jsonSuccess": "설정 내보내기 성공",
+      "jsonError": "설정 내보내기 실패",
+      "markdownSuccess": "Markdown 내보내기 성공",
+      "markdownError": "Markdown 내보내기 실패"
+    }
+  },
+  "workbench": {
+    "sidePanel": {
+      "layout": {
+        "title": "레이아웃",
+        "addCustomSection": "모듈 추가",
+        "addCustomSectionOption": "커스텀 모듈 추가",
+        "customSectionTypes": {
+          "entryList": "항목 리스트 모듈",
+          "richText": "리치 텍스트 모듈",
+          "imageGrid": "이미지 그리드 모듈"
+        },
+        "standardSections": {
+          "skills": "기술",
+          "experience": "경력",
+          "projects": "프로젝트",
+          "education": "학력",
+          "selfEvaluation": "자기소개",
+          "certificates": "자격증 및 작품"
+        }
+      },
+      "theme": {
+        "title": "테마 색상",
+        "custom": "사용자 지정"
+      },
+      "typography": {
+        "title": "타이포그래피",
+        "font": {
+          "title": "글꼴",
+          "alibaba": "Alibaba PuHuiTi",
+          "misans": "MiSans",
+          "notosanssc": "Noto Sans SC",
+          "sourcehanserifsc": "Source Han Serif SC",
+          "nanumgothic": "Nanum Gothic",
+          "nanummyeongjo": "Nanum Myeongjo",
+          "notosanskr": "Noto Sans KR",
+          "pretendard": "Pretendard",
+          "note": "MiSans는 라이선스에 따라 무료 상업 사용이 가능합니다. 배포 시 폰트 표기를 유지하세요."
+        },
+        "lineHeight": {
+          "title": "줄 간격",
+          "normal": "기본",
+          "relaxed": "보통",
+          "loose": "넓게"
+        },
+        "baseFontSize": {
+          "title": "기본 글자 크기"
+        },
+        "headerSize": {
+          "title": "섹션 제목 크기"
+        },
+        "subheaderSize": {
+          "title": "항목 제목 크기"
+        }
+      },
+      "spacing": {
+        "title": "간격",
+        "pagePadding": {
+          "title": "페이지 여백"
+        },
+        "sectionSpacing": {
+          "title": "섹션 간격"
+        },
+        "paragraphSpacing": {
+          "title": "문단 간격"
+        }
+      },
+      "mode": {
+        "title": "모드",
+        "useIconMode": {
+          "title": "아이콘 모드"
+        },
+        "centerSubtitle": {
+          "title": "부제 중앙 정렬"
+        },
+        "flexibleHeaderLayout": {
+          "title": "긴 제목 모드"
+        }
+      }
+    },
+    "basicPanel": {
+      "title": "프로필",
+      "basicField": "기본 필드",
+      "customField": "커스텀 필드",
+      "githubContributions": "GitHub 기여",
+      "layout": "정렬",
+      "layoutLeft": "왼쪽",
+      "layoutCenter": "가운데",
+      "layoutRight": "오른쪽",
+      "avatar": "프로필 이미지",
+      "customFields": {
+        "placeholders": {
+          "label": "라벨",
+          "value": "값"
+        },
+        "displayLabel": "라벨 표시",
+        "addButton": "커스텀 필드 추가"
+      },
+      "basicFields": {
+        "name": "이름",
+        "title": "직무",
+        "email": "이메일",
+        "phone": "전화번호",
+        "website": "개인 웹사이트",
+        "location": "주소",
+        "birthDate": "생년월일",
+        "employementStatus": "상태"
+      },
+      "fieldVisibility": {
+        "show": "표시",
+        "hide": "숨김"
+      }
+    },
+    "experiencePanel": {
+      "title": "경력",
+      "addButton": "경력 추가",
+      "defaultProject": {
+        "company": "어떤 기술 회사",
+        "position": "시니어 프론트엔드 엔지니어",
+        "date": "2020-현재",
+        "details": "핵심 제품을 담당..."
+      },
+      "placeholders": {
+        "company": "회사명을 입력하세요",
+        "position": "직무를 입력하세요",
+        "date": "근무 기간을 입력하세요",
+        "details": "담당 업무와 성과를 입력하세요"
+      }
+    },
+    "experienceItem": {
+      "labels": {
+        "company": "회사명",
+        "position": "직무",
+        "date": "근무 기간",
+        "details": "담당 업무"
+      },
+      "placeholders": {
+        "company": "회사명을 입력하세요",
+        "position": "예: 프론트엔드 엔지니어",
+        "date": "예: 2020-현재",
+        "details": "이 직무에서의 역할과 성과를 설명하세요"
+      },
+      "buttons": {
+        "edit": "편집",
+        "save": "저장",
+        "cancel": "취소",
+        "delete": "삭제"
+      },
+      "visibility": {
+        "show": "표시",
+        "hide": "숨김"
+      }
+    },
+    "projectPanel": {
+      "title": "프로젝트",
+      "addButton": "프로젝트 추가",
+      "defaultProject": {
+        "name": "개인 프로젝트",
+        "description": "프로젝트 설명",
+        "role": "담당 역할",
+        "technologies": "기술 스택",
+        "date": "2023.01 - 2023.06"
+      },
+      "placeholders": {
+        "name": "프로젝트 이름",
+        "description": "프로젝트 배경과 목표를 간단히 입력하세요",
+        "role": "프로젝트에서의 역할과 책임",
+        "technologies": "사용한 기술과 도구",
+        "date": "프로젝트 기간",
+        "link": "프로젝트 링크"
+      }
+    },
+    "projectItem": {
+      "labels": {
+        "name": "프로젝트명",
+        "role": "역할",
+        "date": "기간",
+        "description": "설명",
+        "link": "프로젝트 링크",
+        "linkLabel": "표시 텍스트"
+      },
+      "placeholders": {
+        "name": "프로젝트명을 입력하세요",
+        "role": "프로젝트에서 맡은 역할",
+        "date": "프로젝트 기간",
+        "description": "프로젝트 배경과 목표를 간단히 입력하세요",
+        "link": "프로젝트 링크",
+        "linkLabel": "표시 텍스트"
+      },
+      "hints": {
+        "linkLabel": "표시 텍스트가 비어 있으면 도메인 또는 전체 URL이 자동으로 표시됩니다. 링크는 http:// 또는 https:// 만 지원합니다."
+      },
+      "buttons": {
+        "edit": "편집",
+        "save": "저장",
+        "cancel": "취소",
+        "delete": "삭제"
+      },
+      "visibility": {
+        "show": "표시",
+        "hide": "숨김"
+      }
+    },
+    "educationPanel": {
+      "title": "학력",
+      "addButton": "학력 추가",
+      "defaultProject": {
+        "school": "학교명",
+        "degree": "학위",
+        "major": "전공",
+        "date": "2020.09 - 2024.06"
+      },
+      "placeholders": {
+        "school": "학교명을 입력하세요",
+        "degree": "학위를 선택하세요",
+        "major": "전공명을 입력하세요",
+        "date": "재학 기간을 입력하세요"
+      }
+    },
+    "educationItem": {
+      "labels": {
+        "school": "학교명",
+        "degree": "학위",
+        "major": "전공",
+        "date": "재학 기간",
+        "description": "학교 소개",
+        "gpa": "GPA",
+        "startDate": "시작일",
+        "endDate": "종료일"
+      },
+      "placeholders": {
+        "school": "학교명을 입력하세요",
+        "degree": "학위를 선택하세요",
+        "major": "전공명을 입력하세요",
+        "date": "재학 기간을 입력하세요",
+        "description": "학교 소개를 입력하세요",
+        "gpa": "GPA를 입력하세요"
+      },
+      "buttons": {
+        "edit": "편집",
+        "save": "저장",
+        "cancel": "취소",
+        "delete": "삭제"
+      },
+      "visibility": {
+        "show": "표시",
+        "hide": "숨김"
+      }
+    },
+    "certificatesPanel": {
+      "title": "자격증 및 작품",
+      "addButton": "사진 또는 자격증 추가",
+      "tips": "클릭 업로드 또는 단축키(Cmd/Ctrl + V)로 이미지 붙여넣기를 지원합니다. 슬라이더로 가로 너비를 조절할 수 있습니다.",
+      "width": "너비(가로 비율)",
+      "delete": "삭제",
+      "empty": "이미지가 없습니다. 업로드하거나 붙여넣어 주세요"
+    }
+  },
+  "field": {
+    "selectDate": "날짜 선택",
+    "enterYear": "연도 입력",
+    "toPresent": "현재"
+  },
+  "richEditor": {
+    "bold": "굵게",
+    "italic": "기울임",
+    "underline": "밑줄",
+    "link": "링크",
+    "linkPlaceholder": "링크를 입력하세요. 예: https://example.com",
+    "linkApply": "적용",
+    "linkRemove": "제거",
+    "linkInvalid": "유효한 링크를 입력하세요",
+    "textColor": "텍스트 색상",
+    "backgroundColor": "배경 색상",
+    "alignLeft": "왼쪽 정렬",
+    "alignCenter": "가운데 정렬",
+    "alignRight": "오른쪽 정렬",
+    "alignJustify": "양쪽 정렬",
+    "bulletList": "글머리 기호 목록",
+    "orderedList": "번호 목록",
+    "undo": "실행 취소",
+    "redo": "다시 실행",
+    "aiPolish": "AI 다듬기",
+    "paragraph": "본문",
+    "heading1": "제목 1",
+    "heading2": "제목 2",
+    "heading3": "제목 3",
+    "colors": {
+      "black": "검정",
+      "darkGray": "진회색",
+      "gray": "회색",
+      "red": "빨강",
+      "orange": "주황",
+      "orangeYellow": "주황빛 노랑",
+      "yellow": "노랑",
+      "yellowGreen": "연두",
+      "green": "초록",
+      "cyan": "청록",
+      "lightBlue": "하늘색",
+      "blue": "파랑",
+      "purple": "보라",
+      "magenta": "자주",
+      "pink": "분홍"
+    }
+  },
+  "iconSelector": {
+    "all": "전체",
+    "searchPlaceholder": "아이콘 검색...",
+    "noMatchingIcons": "일치하는 아이콘이 없습니다",
+    "tryOtherKeywords": "다른 검색어를 시도하세요",
+    "selectOtherCategory": "다른 카테고리를 선택하세요",
+    "categories": {
+      "personal": "개인 정보",
+      "education": "학력",
+      "experience": "경력",
+      "skills": "기술",
+      "languages": "언어",
+      "projects": "프로젝트",
+      "achievements": "성과/자격증",
+      "hobbies": "취미",
+      "social": "소셜 미디어",
+      "others": "기타"
+    },
+    "icons": {
+      "user": "사용자",
+      "email": "이메일",
+      "phone": "전화",
+      "address": "주소",
+      "website": "웹사이트",
+      "mobile": "휴대폰",
+      "education": "학력",
+      "school": "학교",
+      "major": "전공",
+      "library": "도서관",
+      "scholarship": "장학금",
+      "work": "업무",
+      "company": "회사",
+      "office": "사무실",
+      "dateRange": "기간",
+      "workTime": "근무 시간",
+      "programming": "프로그래밍",
+      "system": "시스템",
+      "database": "데이터베이스",
+      "terminal": "터미널",
+      "techStack": "기술 스택",
+      "language": "언어",
+      "speaking": "말하기",
+      "communication": "커뮤니케이션",
+      "project": "프로젝트",
+      "branch": "브랜치",
+      "release": "배포",
+      "target": "목표",
+      "trophy": "트로피",
+      "medal": "메달",
+      "star": "별점",
+      "interest": "관심사",
+      "music": "음악",
+      "art": "예술",
+      "photography": "사진",
+      "linkedin": "링크드인",
+      "twitter": "트위터",
+      "facebook": "페이스북",
+      "instagram": "인스타그램",
+      "profile": "프로필",
+      "review": "검토",
+      "filter": "필터",
+      "link": "링크",
+      "salary": "급여",
+      "idea": "아이디어",
+      "send": "전송",
+      "share": "공유",
+      "settings": "설정",
+      "search": "검색",
+      "flag": "표시",
+      "bookmark": "북마크",
+      "thumbsUp": "좋아요",
+      "skill": "기술"
+    }
+  },
+  "photoConfig": {
+    "title": "프로필 이미지 설정",
+    "description": "이력서 프로필 이미지를 설정하세요",
+    "upload": {
+      "title": "온라인 링크",
+      "dragHint": "이미지를 드래그하거나 클릭해 업로드",
+      "sizeLimit": "이미지 크기는 2MB 이하여야 합니다",
+      "typeLimit": "이미지 파일을 업로드하세요",
+      "urlPlaceholder": "이미지 링크 입력",
+      "invalidUrl": "이미지 링크가 유효하지 않거나 접근할 수 없습니다. 다른 링크를 시도하세요",
+      "timeout": "로드 시간 초과",
+      "loadError": "이미지 로드 실패"
+    },
+    "config": {
+      "aspectRatio": "가로세로 비율",
+      "size": "크기",
+      "width": "너비",
+      "height": "높이",
+      "border-radius": "모서리 둥글기",
+      "widthPlaceholder": "너비",
+      "heightPlaceholder": "높이",
+      "ratios": {
+        "1:1": "1:1 정사각형",
+        "4:3": "4:3 가로형",
+        "3:4": "3:4 세로형",
+        "16:9": "16:9 와이드",
+        "custom": "사용자 지정"
+      },
+      "borderRadius": {
+        "none": "없음",
+        "medium": "보통",
+        "full": "원형",
+        "custom": "사용자 지정",
+        "customPlaceholder": "사용자 지정 둥글기"
+      }
+    },
+    "actions": {
+      "reset": "초기화",
+      "close": "닫기",
+      "cancel": "취소",
+      "removePhoto": "프로필 이미지 삭제"
+    }
+  },
+  "previewDock": {
+    "switchTemplate": "템플릿 전환",
+    "grammarCheck": {
+      "idle": "AI 문법 검사",
+      "checking": "검사 중...",
+      "configurePrompt": "ApiKey와 모델 ID를 먼저 설정하세요",
+      "configureButton": "설정하기",
+      "errorToast": "문법 검사 실패, 다시 시도하세요"
+    },
+    "sidePanel": {
+      "expand": "사이드 패널 펼치기",
+      "collapse": "사이드 패널 접기"
+    },
+    "editPanel": {
+      "expand": "편집 패널 펼치기",
+      "collapse": "편집 패널 접기"
+    },
+    "previewPanel": {
+      "expand": "미리보기 패널 펼치기",
+      "collapse": "미리보기 패널 접기"
+    },
+    "github": "GitHub",
+    "backToDashboard": "대시보드로 돌아가기",
+    "copyResume": {
+      "tooltip": "이력서 복제",
+      "success": "이력서 복제 성공",
+      "error": "이력서 복제 실패"
+    },
+    "export": {
+      "tooltip": "이력서 내보내기",
+      "pdf": "PDF 내보내기",
+      "json": "JSON 내보내기",
+      "markdown": "Markdown 내보내기",
+      "print": "PDF 내보내기(백업)"
+    },
+    "autoOnePage": {
+      "tooltip": "자동 1페이지",
+      "enabled": "1페이지 모드가 켜졌습니다",
+      "disabled": "1페이지 모드가 꺼졌습니다",
+      "cannotFit": "내용이 많아 가능한 범위까지 압축했지만 한 페이지에 완전히 맞지 않습니다. 내용을 줄이거나 여백과 글자 크기를 조정해 주세요"
+    },
+    "backup": {
+      "configured": "백업 설정됨",
+      "notConfigured": "백업 폴더 미설정",
+      "clickToConfigure": "클릭하여 설정"
+    }
+  },
+  "aiPolishDialog": {
+    "title": "AI 다듬기",
+    "description": {
+      "ready": "선택 입력사항을 작성한 뒤 \"다듬기 시작\"을 클릭하세요",
+      "polishing": "내용을 다듬는 중입니다...",
+      "finished": "내용 최적화가 완료되었습니다. 결과를 확인하세요"
+    },
+    "error": {
+      "configRequired": "AI 모델을 먼저 설정하세요",
+      "polishFailed": "다듬기 실패",
+      "applied": "다듬은 내용을 적용했습니다"
+    },
+    "content": {
+      "original": "원본 내용",
+      "polished": "다듬은 내용"
+    },
+    "customInstructions": "추가 지시사항",
+    "customInstructionsPlaceholder": "예: 기술 용어를 더 사용하고, 수치 성과를 강조하며, 문체는 공식적으로 유지해 주세요 (선택)",
+    "button": {
+      "start": "다듬기 시작",
+      "regenerate": "다시 생성",
+      "generating": "생성 중...",
+      "apply": "내용 적용"
+    }
+  },
+  "templates": {
+    "switchTemplate": "템플릿 전환"
+  },
+  "themeModal": {
+    "delete": {
+      "title": "삭제하시겠습니까",
+      "description": "{title}을(를) 삭제하시겠습니까?",
+      "confirmText": "삭제",
+      "cancelText": "취소"
+    }
+  },
+  "grammarCheck": {
+    "title": "AI 문법 검사",
+    "description": "{count}개의 개선 제안이 있습니다",
+    "exit": "검사 종료",
+    "spelling": "맞춤법",
+    "punctuation": "문장부호",
+    "original": "원문",
+    "error_point": "오류 지점",
+    "suggestion": "수정 제안",
+    "reason": "이유",
+    "accept": "적용",
+    "ignore": "무시",
+    "found_issues": "{count}개의 문제가 발견되었습니다",
+    "applied_success": "수정이 적용되었습니다",
+    "apply_error": "대상 텍스트를 찾지 못해 자동 적용할 수 없습니다",
+    "no_errors_title": "아주 좋습니다",
+    "no_errors_desc": "맞춤법 또는 문장부호 오류를 찾지 못했습니다."
+  },
+  "faqDialog": {
+    "title": "자주 묻는 질문(FAQ)",
+    "description": "Magic Resume 작업대에서 자주 사용하는 팁과 해결 방법입니다.",
+    "items": {
+      "browser-compatibility": {
+        "question": "권장 브라우저는 무엇인가요?",
+        "answer": "최신 버전의 Chrome 또는 Edge 사용을 권장합니다. 일부 구형 브라우저에서는 스타일 문제가 발생할 수 있습니다."
+      },
+      "export-methods": {
+        "question": "두 가지 내보내기 방식의 차이는 무엇인가요?",
+        "answer": "PDF 내보내기는 백엔드 고정밀 렌더링으로 레이아웃을 정확히 유지합니다. 브라우저 인쇄는 현재 브라우저의 인쇄 기능으로 PDF를 저장하는 방식입니다."
+      },
+      "export-failure": {
+        "question": "내보내기 실패나 스타일 깨짐이 발생하면 어떻게 하나요?",
+        "answer": "1. Chrome 브라우저 사용을 권장합니다(https://www.google.com/chrome/).\n2. 계속 실패하면 확장 프로그램 영향을 제외하기 위해 시크릿 모드에서 시도하세요.\n3. 내보내기 메뉴의 \"PDF(백업)\"을 선택하고 인쇄 화면에서 \"PDF로 저장\"을 선택하세요."
+      },
+      "drag-and-drop": {
+        "question": "모듈 순서를 드래그로 어떻게 바꾸나요?",
+        "answer": "좌측 편집 패널의 \"레이아웃\" 설정에서 모듈 카드 왼쪽의 드래그 핸들을 마우스로 누른 채 위아래로 이동하면 전체 이력서 섹션 순서를 바꿀 수 있습니다."
+      }
+    }
+  }
+}

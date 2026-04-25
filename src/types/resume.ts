@@ -125,6 +125,11 @@ export interface Certificate {
   width: number; // Width percentage to support flex layouts
 }
 
+export type CustomSectionLayoutType =
+  | "entry-list"
+  | "rich-text"
+  | "image-grid";
+
 export type GlobalSettings = {
   themeColor?: string | undefined;
   fontFamily?: string | undefined;
@@ -191,6 +196,9 @@ export interface ResumeData {
   projects: Project[];
   certificates: Certificate[];
   customData: Record<string, CustomItem[]>;
+  customTextData: Record<string, string>;
+  customImageData: Record<string, Certificate[]>;
+  customSectionTypes: Record<string, CustomSectionLayoutType>;
   skillContent: string;
   selfEvaluationContent: string;
   activeSection: string;

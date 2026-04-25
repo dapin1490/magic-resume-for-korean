@@ -11,6 +11,8 @@ import CustomSection from "./sections/CustomSection";
 import SectionTitle from "./sections/SectionTitle";
 import SectionWrapper from "../shared/SectionWrapper";
 import CertificatesSection from "../shared/CertificatesSection";
+import CustomRichTextSection from "../shared/CustomRichTextSection";
+import CustomImageGridSection from "../shared/CustomImageGridSection";
 
 interface EditorialTemplateProps {
   data: ResumeData;
@@ -45,6 +47,13 @@ const EditorialTemplate: React.FC<EditorialTemplateProps> = ({ data, template })
       default:
         if (sectionId in data.customData) {
           const sectionTitle = data.menuSections.find((s) => s.id === sectionId)?.title || sectionId;
+          const sectionType = data.customSectionTypes?.[sectionId] || "entry-list";
+          if (sectionType === "rich-text") {
+            return <CustomRichTextSection sectionId={sectionId} title={sectionTitle} content={data.customTextData?.[sectionId] || ""} globalSettings={data.globalSettings} />;
+          }
+          if (sectionType === "image-grid") {
+            return <CustomImageGridSection sectionId={sectionId} title={sectionTitle} images={data.customImageData?.[sectionId] || []} globalSettings={data.globalSettings} />;
+          }
           return <CustomSection title={sectionTitle} sectionId={sectionId} items={data.customData[sectionId]} globalSettings={data.globalSettings} />;
         }
         return null;

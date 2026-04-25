@@ -11,6 +11,7 @@ import {
   ResumeData,
   MenuSection,
   Certificate,
+  CustomSectionLayoutType,
 } from "../types/resume";
 import { DEFAULT_TEMPLATES } from "@/config";
 import {
@@ -53,8 +54,13 @@ interface ResumeStore {
   toggleSectionVisibility: (sectionId: string) => void;
   setActiveSection: (sectionId: string) => void;
   updateMenuSections: (sections: ResumeData["menuSections"]) => void;
-  addCustomData: (sectionId: string) => void;
+  addCustomData: (
+    sectionId: string,
+    sectionType?: CustomSectionLayoutType
+  ) => void;
   updateCustomData: (sectionId: string, items: CustomItem[]) => void;
+  updateCustomTextData: (sectionId: string, content: string) => void;
+  updateCustomImageData: (sectionId: string, images: Certificate[]) => void;
   removeCustomData: (sectionId: string) => void;
   addCustomItem: (sectionId: string) => void;
   updateCustomItem: (
@@ -63,6 +69,13 @@ interface ResumeStore {
     updates: Partial<CustomItem>
   ) => void;
   removeCustomItem: (sectionId: string, itemId: string) => void;
+  addCustomImage: (sectionId: string, image: Certificate) => void;
+  updateCustomImage: (
+    sectionId: string,
+    imageId: string,
+    updates: Partial<Certificate>
+  ) => void;
+  removeCustomImage: (sectionId: string, imageId: string) => void;
   updateGlobalSettings: (settings: Partial<GlobalSettings>) => void;
   setThemeColor: (color: string) => void;
   setTemplate: (templateId: string) => void;
@@ -575,10 +588,22 @@ export const useResumeStore = create(
         }
       },
 
-      addCustomData: (sectionId) => {
+      addCustomData: (sectionId, sectionType = "entry-list") => {
         const { activeResumeId } = get();
         if (activeResumeId) {
           const currentResume = get().resumes[activeResumeId];
+          const updatedCustomTextData = {
+            ...currentResume.customTextData,
+            [sectionId]: "",
+          };
+          const updatedCustomImageData = {
+            ...currentResume.customImageData,
+            [sectionId]: [],
+          };
+          const updatedCustomSectionTypes = {
+            ...currentResume.customSectionTypes,
+            [sectionId]: sectionType,
+          };
           const updatedCustomData = {
             ...currentResume.customData,
             [sectionId]: [
@@ -592,7 +617,12 @@ export const useResumeStore = create(
               },
             ],
           };
-          get().updateResume(activeResumeId, { customData: updatedCustomData });
+          get().updateResume(activeResumeId, {
+            customData: updatedCustomData,
+            customTextData: updatedCustomTextData,
+            customImageData: updatedCustomImageData,
+            customSectionTypes: updatedCustomSectionTypes,
+          });
         }
       },
 
@@ -608,12 +638,49 @@ export const useResumeStore = create(
         }
       },
 
+      updateCustomTextData: (sectionId, content) => {
+        const { activeResumeId } = get();
+        if (activeResumeId) {
+          const currentResume = get().resumes[activeResumeId];
+          const updatedCustomTextData = {
+            ...currentResume.customTextData,
+            [sectionId]: content,
+          };
+          get().updateResume(activeResumeId, {
+            customTextData: updatedCustomTextData,
+          });
+        }
+      },
+
+      updateCustomImageData: (sectionId, images) => {
+        const { activeResumeId } = get();
+        if (activeResumeId) {
+          const currentResume = get().resumes[activeResumeId];
+          const updatedCustomImageData = {
+            ...currentResume.customImageData,
+            [sectionId]: images,
+          };
+          get().updateResume(activeResumeId, {
+            customImageData: updatedCustomImageData,
+          });
+        }
+      },
+
       removeCustomData: (sectionId) => {
         const { activeResumeId } = get();
         if (activeResumeId) {
           const currentResume = get().resumes[activeResumeId];
           const { [sectionId]: _, ...rest } = currentResume.customData;
-          get().updateResume(activeResumeId, { customData: rest });
+          const { [sectionId]: __, ...restText } = currentResume.customTextData;
+          const { [sectionId]: ___, ...restImages } = currentResume.customImageData;
+          const { [sectionId]: ____, ...restTypes } =
+            currentResume.customSectionTypes;
+          get().updateResume(activeResumeId, {
+            customData: rest,
+            customTextData: restText,
+            customImageData: restImages,
+            customSectionTypes: restTypes,
+          });
         }
       },
 
@@ -664,6 +731,52 @@ export const useResumeStore = create(
             ),
           };
           get().updateResume(activeResumeId, { customData: updatedCustomData });
+        }
+      },
+
+      addCustomImage: (sectionId, image) => {
+        const { activeResumeId } = get();
+        if (activeResumeId) {
+          const currentResume = get().resumes[activeResumeId];
+          const updatedCustomImageData = {
+            ...currentResume.customImageData,
+            [sectionId]: [...(currentResume.customImageData[sectionId] || []), image],
+          };
+          get().updateResume(activeResumeId, {
+            customImageData: updatedCustomImageData,
+          });
+        }
+      },
+
+      updateCustomImage: (sectionId, imageId, updates) => {
+        const { activeResumeId } = get();
+        if (activeResumeId) {
+          const currentResume = get().resumes[activeResumeId];
+          const updatedCustomImageData = {
+            ...currentResume.customImageData,
+            [sectionId]: (currentResume.customImageData[sectionId] || []).map(
+              (image) => (image.id === imageId ? { ...image, ...updates } : image)
+            ),
+          };
+          get().updateResume(activeResumeId, {
+            customImageData: updatedCustomImageData,
+          });
+        }
+      },
+
+      removeCustomImage: (sectionId, imageId) => {
+        const { activeResumeId } = get();
+        if (activeResumeId) {
+          const currentResume = get().resumes[activeResumeId];
+          const updatedCustomImageData = {
+            ...currentResume.customImageData,
+            [sectionId]: (currentResume.customImageData[sectionId] || []).filter(
+              (image) => image.id !== imageId
+            ),
+          };
+          get().updateResume(activeResumeId, {
+            customImageData: updatedCustomImageData,
+          });
         }
       },
 

@@ -334,6 +334,11 @@
         "title": "Layout",
         "addCustomSection": "Add Module",
         "addCustomSectionOption": "Add Custom Section",
+        "customSectionTypes": {
+          "entryList": "Entry List Section",
+          "richText": "Rich Text Section",
+          "imageGrid": "Image Grid Section"
+        },
         "standardSections": {
           "skills": "Skills",
           "experience": "Experience",

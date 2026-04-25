@@ -288,6 +288,11 @@
         "title": "布局",
         "addCustomSection": "添加模块",
         "addCustomSectionOption": "添加自定义模块",
+        "customSectionTypes": {
+          "entryList": "条目列表模块",
+          "richText": "富文本模块",
+          "imageGrid": "图片网格模块"
+        },
         "standardSections": {
           "skills": "专业技能",
           "experience": "工作经验",

@@ -8,6 +8,8 @@ import EducationPanel from "./education/EducationPanel";
 import ProjectPanel from "./project/ProjectPanel";
 import ExperiencePanel from "./experience/ExperiencePanel";
 import CustomPanel from "./custom/CustomPanel";
+import CustomTextPanel from "./custom/CustomTextPanel";
+import CustomImagePanel from "./custom/CustomImagePanel";
 import SkillPanel from "./skills/SkillPanel";
 import SelfEvaluationPanel from "./self-evaluation/SelfEvaluationPanel";
 import CertificatesPanel from "./certificates/CertificatesPanel";
@@ -42,6 +44,14 @@ export function EditPanel() {
         return <CertificatesPanel />;
       default:
         if (activeSection?.startsWith("custom")) {
+          const sectionType =
+            activeResume?.customSectionTypes?.[activeSection] || "entry-list";
+          if (sectionType === "rich-text") {
+            return <CustomTextPanel sectionId={activeSection} />;
+          }
+          if (sectionType === "image-grid") {
+            return <CustomImagePanel sectionId={activeSection} />;
+          }
           return <CustomPanel sectionId={activeSection} />;
         } else {
           return <BasicPanel />;

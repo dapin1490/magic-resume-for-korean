@@ -166,6 +166,9 @@ export const initialResumeState = {
   ],
   certificates: [],
   customData: {},
+  customTextData: {},
+  customImageData: {},
+  customSectionTypes: {},
   activeSection: "basic",
   globalSettings: initialGlobalSettings,
 };
@@ -327,6 +330,9 @@ export const initialResumeStateEn = {
   ],
   certificates: [],
   customData: {},
+  customTextData: {},
+  customImageData: {},
+  customSectionTypes: {},
   activeSection: "basic",
   globalSettings: initialGlobalSettings,
 };

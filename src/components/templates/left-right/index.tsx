@@ -11,6 +11,8 @@ import CustomSection from "./sections/CustomSection";
 import SectionTitle from "./sections/SectionTitle";
 import SectionWrapper from "../shared/SectionWrapper";
 import CertificatesSection from "../shared/CertificatesSection";
+import CustomRichTextSection from "../shared/CustomRichTextSection";
+import CustomImageGridSection from "../shared/CustomImageGridSection";
 
 
 interface LeftRightTemplateProps {
@@ -47,6 +49,13 @@ const LeftRightTemplate: React.FC<LeftRightTemplateProps> = ({ data, template })
             default:
                 if (sectionId in data.customData) {
                     const title = data.menuSections.find((s) => s.id === sectionId)?.title || sectionId;
+                    const sectionType = data.customSectionTypes?.[sectionId] || "entry-list";
+                    if (sectionType === "rich-text") {
+                        return <CustomRichTextSection sectionId={sectionId} title={title} content={data.customTextData?.[sectionId] || ""} globalSettings={data.globalSettings} />;
+                    }
+                    if (sectionType === "image-grid") {
+                        return <CustomImageGridSection sectionId={sectionId} title={title} images={data.customImageData?.[sectionId] || []} globalSettings={data.globalSettings} />;
+                    }
                     return <CustomSection title={title} sectionId={sectionId} items={data.customData[sectionId]} globalSettings={data.globalSettings} />;
                 }
                 return null;

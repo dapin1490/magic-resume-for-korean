@@ -18,7 +18,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LayoutSetting from "./layout/LayoutSetting";
 import { useResumeStore } from "@/store/useResumeStore";
 import { cn } from "@/lib/utils";
-import { THEME_COLORS, MenuSection } from "@/types/resume";
+import {
+  THEME_COLORS,
+  MenuSection,
+  CustomSectionLayoutType,
+} from "@/types/resume";
 import { ColorPicker } from "@/components/ui/color-picker";
 import {
   Popover,
@@ -133,18 +137,23 @@ export function SidePanel() {
     return `custom-${nextNum}`;
   };
 
-  const handleCreateSection = () => {
+  const handleCreateSection = (sectionType: CustomSectionLayoutType) => {
     const sectionId = generateCustomSectionId(menuSections);
+    const sectionTitleByType: Record<CustomSectionLayoutType, string> = {
+      "entry-list": t("layout.customSectionTypes.entryList"),
+      "rich-text": t("layout.customSectionTypes.richText"),
+      "image-grid": t("layout.customSectionTypes.imageGrid"),
+    };
     const newSection = {
       id: sectionId,
-      title: sectionId,
+      title: `${sectionTitleByType[sectionType]} ${menuSections.length + 1}`,
       icon: "➕",
       enabled: true,
       order: menuSections.length,
     };
 
     updateMenuSections([...menuSections, newSection]);
-    addCustomData(sectionId);
+    addCustomData(sectionId, sectionType);
   };
   return (
     <motion.div
@@ -208,11 +217,25 @@ export function SidePanel() {
 
                   {/* Add Custom Section */}
                   <button
-                    onClick={handleCreateSection}
-                    className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors text-left text-muted-foreground italic"
+                    onClick={() => handleCreateSection("entry-list")}
+                    className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors text-left"
                   >
                     <Plus className="w-4 h-4" />
-                    {t("layout.addCustomSectionOption")}
+                    {t("layout.customSectionTypes.entryList")}
+                  </button>
+                  <button
+                    onClick={() => handleCreateSection("rich-text")}
+                    className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors text-left"
+                  >
+                    <Plus className="w-4 h-4" />
+                    {t("layout.customSectionTypes.richText")}
+                  </button>
+                  <button
+                    onClick={() => handleCreateSection("image-grid")}
+                    className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors text-left"
+                  >
+                    <Plus className="w-4 h-4" />
+                    {t("layout.customSectionTypes.imageGrid")}
                   </button>
                 </div>
               </PopoverContent>

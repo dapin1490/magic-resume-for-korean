@@ -133,3 +133,66 @@ pnpm dev
 프로젝트 기본 실행 자체에는 필수 환경변수가 없습니다.
 
 다만 AI 관련 기능을 쓰는 경우, 앱 내부 설정 화면에서 API 키를 넣거나 별도 설정이 필요할 수 있습니다.
+
+## 12) Docker 운영 가이드 (prod/dev 분리)
+
+아래 규칙만 지키면 배포용과 개발용을 번갈아 실행할 때 충돌을 크게 줄일 수 있습니다.
+
+### 핵심 규칙
+
+1. prod와 dev는 반드시 서로 다른 프로젝트명(`-p`)으로 실행합니다.
+2. 모드 전환 시 `stop` 대신 `down`을 사용합니다.
+3. 모드 전환 시 `--build`를 포함합니다.
+4. dev 종료 시에는 `down -v`로 볼륨까지 정리합니다.
+
+### 배포용(prod) 실행/종료
+
+```powershell
+# 실행
+docker compose -p mr-prod up -d --build
+
+# 로그 확인
+docker compose -p mr-prod logs -f web
+
+# 종료
+docker compose -p mr-prod down
+```
+
+### 개발용(dev) 실행/종료
+
+```powershell
+# 실행 전 정리(이전 dev 흔적 제거)
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml down -v
+
+# 실행
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml up --build
+
+# 로그 확인
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml logs -f web
+
+# 종료(반드시 -v 포함)
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml down -v
+```
+
+### 모드 전환 순서
+
+#### prod -> dev
+
+```powershell
+docker compose -p mr-prod down
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml down -v
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
+#### dev -> prod
+
+```powershell
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml down -v
+docker compose -p mr-prod up -d --build
+```
+
+### 피해야 하는 실행 패턴
+
+- `docker compose up -d`와 `docker compose -f docker-compose.yml -f docker-compose.dev.yml up`를 같은 프로젝트명으로 번갈아 실행
+- 모드 전환 시 `stop`만 사용
+- dev 종료 시 `down -v` 생략

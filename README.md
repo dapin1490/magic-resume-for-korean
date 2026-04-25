@@ -96,19 +96,26 @@ This will:
 Use the development override file to enable real-time updates while editing code:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
 
 Run in background:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 ```
 
 Stop development containers:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+docker compose -p mr-dev -f docker-compose.yml -f docker-compose.dev.yml down -v
+```
+
+If you also run production compose on the same machine, use a different project name to avoid resource collisions:
+
+```bash
+docker compose -p mr-prod up -d --build
+docker compose -p mr-prod down
 ```
 
 

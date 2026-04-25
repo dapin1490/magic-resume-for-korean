@@ -42,7 +42,7 @@ const PageBreakLine = React.memo(
         <div className="relative w-full">
           <div className="absolute w-full border-t-2 border-dashed border-red-400" />
           <div className="absolute right-0 -top-6 text-xs text-red-500">
-            第{pageNumber}页结束
+            End of page {pageNumber}
           </div>
         </div>
       </div>

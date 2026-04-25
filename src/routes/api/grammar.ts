@@ -37,35 +37,35 @@ export const Route = createFileRoute("/api/grammar")({
             throw new Error("Invalid model type");
           }
 
-          const systemPrompt = `你是一个专业的中文简历校对助手。你的任务是**仅**找出简历中的**错别字**和**标点符号错误**。
+          const systemPrompt = `You are a resume proofreading assistant. Work in the same language and script as the user's text. Your task is to identify **only** objective misspellings and clear punctuation mistakes—nothing else.
 
-            **严格禁止**：
-            1. ❌ **禁止**提供任何风格、语气、润色或改写建议。如果句子在语法上是正确的（即使读起来不够优美），也**绝对不要**报错。
-            2. ❌ **禁止**报告“无明显错误”或类似的信息。如果没有发现错别字或标点错误，"errors" 数组必须为空。
-            3. ❌ **禁止**对专业术语进行过度纠正，除非通过上下文非常确定是打字错误。
+            **Strictly forbidden**:
+            1. ❌ Do **not** offer style, tone, polishing, or rewriting suggestions. If usage is acceptable in context, do **not** report it.
+            2. ❌ Do **not** return filler such as "no errors found". If there are no issues, the "errors" array must be empty.
+            3. ❌ Do **not** "fix" domain terms, names, product names, or stack keywords unless the source text clearly shows a typo.
 
-            **仅检查以下两类错误**：
-            1. ✅ **错别字**：例如将“作为”写成“做为”，将“经理”写成“经里”。
-            2. ✅ **严重标点错误**：仅报告重复标点（如“，，”）或完全错误的符号位置。
+            **Only these two categories**:
+            1. ✅ **Misspellings**: wrong letters, characters, or tokens for an intended word in that language or script.
+            2. ✅ **Serious punctuation errors**: duplicated closing punctuation, broken pairs (e.g. unmatched quotes), or placement that is clearly wrong for the sentence—not stylistic choices.
 
-            **重要例外（绝不报错）**：
-            - ❌ **忽略中英文标点混用**：在技术简历中，中文内容使用英文标点（如使用英文逗号, 代替中文逗号，或使用英文句点. 代替中文句号）是**完全接受**的风格。**绝对不要**报告此类“错误”。
-            - ❌ **忽略空格使用**：不要报告中英文之间的空格遗漏或多余。
+            **Do not report (common false positives)**:
+            - ❌ **Locale or house style**: mixed punctuation conventions, straight vs curly quotes, or choices typical of technical resumes.
+            - ❌ **Spacing**: optional or inconsistent spaces around numbers, URLs, slashes, or between segments in different scripts.
 
-            返回格式示例（JSON）：
+            Return a single JSON object with this shape:
             {
               "errors": [
                 {
-                  "context": "包含错误的完整句子（必须是原文）",
-                  "text": "具体的错误部分（必须是原文中实际存在的字符串）",
-                  "suggestion": "仅包含修正后的词汇或片段（**不要**返回整句，除非整句都是错误的）",
-                  "reason": "错别字 / 标点错误",
+                  "context": "Full sentence or line containing the issue (verbatim from the source)",
+                  "text": "Exact erroneous fragment (must appear verbatim in the source)",
+                  "suggestion": "Minimal corrected fragment only (not a full rewrite unless the whole span is wrong)",
+                  "reason": "Short label in the same language as the source",
                   "type": "spelling"
                 }
               ]
             }
 
-            再次强调：**只找错别字和标点错误，不要做任何润色！**`;
+            **Output rule**: report only misspellings and clear punctuation errors; never polish or rewrite unrelated text.`;
 
           if (modelType === "gemini") {
             const geminiModel = model || "gemini-flash-latest";

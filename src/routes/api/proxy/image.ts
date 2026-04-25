@@ -9,21 +9,21 @@ export const Route = createFileRoute("/api/proxy/image")({
           const imageUrl = searchParams.get("url");
 
           if (!imageUrl) {
-            console.error("缺少图片URL参数");
-            return Response.json({ error: "缺少图片URL参数" }, { status: 400 });
+            console.error("Missing image URL parameter");
+            return Response.json({ error: "Missing image URL parameter" }, { status: 400 });
           }
 
           let parsedUrl: URL;
           try {
             parsedUrl = new URL(imageUrl);
           } catch (_error) {
-            console.error(`图片URL格式不正确: ${imageUrl}`);
-            return Response.json({ error: "图片URL格式不正确" }, { status: 400 });
+            console.error(`Invalid image URL format: ${imageUrl}`);
+            return Response.json({ error: "Invalid image URL format" }, { status: 400 });
           }
 
           if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
-            console.error(`不支持的URL协议: ${parsedUrl.protocol}`);
-            return Response.json({ error: "只支持HTTP和HTTPS协议" }, { status: 400 });
+            console.error(`Unsupported URL protocol: ${parsedUrl.protocol}`);
+            return Response.json({ error: "Only HTTP and HTTPS protocols are supported" }, { status: 400 });
           }
 
           let response: Response;
@@ -38,26 +38,26 @@ export const Route = createFileRoute("/api/proxy/image")({
               }
             });
           } catch (error: any) {
-            console.error(`获取图片失败: ${error.message || "未知错误"}`);
-            return Response.json({ error: `获取图片失败: ${error.message || "未知错误"}` }, { status: 500 });
+            console.error(`Failed to fetch image: ${error.message || "Unknown error"}`);
+            return Response.json({ error: `Failed to fetch image: ${error.message || "Unknown error"}` }, { status: 500 });
           }
 
           if (!response.ok) {
-            console.error(`图片服务器返回错误: ${response.status} ${response.statusText}`);
-            return Response.json({ error: `获取图片失败: ${response.status} ${response.statusText}` }, { status: response.status });
+            console.error(`Image server returned an error: ${response.status} ${response.statusText}`);
+            return Response.json({ error: `Failed to fetch image: ${response.status} ${response.statusText}` }, { status: response.status });
           }
 
           let imageBuffer: ArrayBuffer;
           try {
             imageBuffer = await response.arrayBuffer();
           } catch (error: any) {
-            console.error(`读取图片内容失败: ${error.message || "未知错误"}`);
-            return Response.json({ error: `读取图片内容失败: ${error.message || "未知错误"}` }, { status: 500 });
+            console.error(`Failed to read image content: ${error.message || "Unknown error"}`);
+            return Response.json({ error: `Failed to read image content: ${error.message || "Unknown error"}` }, { status: 500 });
           }
 
           if (imageBuffer.byteLength === 0) {
-            console.error("图片内容为空");
-            return Response.json({ error: "图片内容为空" }, { status: 400 });
+            console.error("Image content is empty");
+            return Response.json({ error: "Image content is empty" }, { status: 400 });
           }
 
           const contentType = response.headers.get("content-type") || "image/jpeg";
@@ -75,8 +75,8 @@ export const Route = createFileRoute("/api/proxy/image")({
             }
           });
         } catch (error: any) {
-          console.error("图片代理未处理的错误:", error);
-          return Response.json({ error: `处理图片请求时出错: ${error.message || "未知错误"}` }, { status: 500 });
+          console.error("Unhandled image proxy error:", error);
+          return Response.json({ error: `Error while processing image request: ${error.message || "Unknown error"}` }, { status: 500 });
         }
       }
     }

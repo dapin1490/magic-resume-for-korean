@@ -77,7 +77,7 @@ export default function AIPolishDialog({
 
       if (!rawText) {
         if (response.status === 401) {
-          return "认证失败（401），请检查 API Key、模型和 API Endpoint 配置。";
+          return "Authentication failed (401). Check your API key, model, and API endpoint configuration.";
         }
         return fallback;
       }
@@ -105,7 +105,7 @@ export default function AIPolishDialog({
     }
 
     if (response.status === 401) {
-      return "认证失败（401），请检查 API Key、模型和 API Endpoint 配置。";
+      return "Authentication failed (401). Check your API key, model, and API endpoint configuration.";
     }
 
     return fallback;

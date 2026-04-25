@@ -35,6 +35,17 @@ export function GrammarCheckDrawer() {
   const { activeResume, updateResume } = useResumeStore();
 
   const [isOpen, setIsOpen] = useState(false);
+  const shouldDisplayReason = (reason?: string) => {
+    if (!reason) return false;
+    const normalizedReason = reason.trim().toLowerCase();
+    const hiddenReasons = new Set([
+      t("spelling").trim().toLowerCase(),
+      t("punctuation").trim().toLowerCase(),
+      "spelling",
+      "punctuation",
+    ]);
+    return !hiddenReasons.has(normalizedReason);
+  };
 
   useEffect(() => {
     if (errors.length > 0) {
@@ -175,7 +186,7 @@ export function GrammarCheckDrawer() {
                             {error.type === "spelling" ? t("spelling") : t("punctuation")}
                         </Badge>
                         {/* 只有当 reason 与 Badge 内容不同时才显示 */}
-                        {error.reason && error.reason !== "错别字" && error.reason !== "标点符号" && (
+                        {shouldDisplayReason(error.reason) && (
                             <span className="text-[10px] text-muted-foreground/70 italic max-w-[180px] truncate">
                                 {error.reason}
                             </span>

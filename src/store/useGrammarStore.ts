@@ -150,7 +150,7 @@ export const useGrammarStore = create<GrammarStore>((set, get) => ({
       }
 
       if (data.error?.code === "AuthenticationError") {
-        toast.error("ApiKey 或 模型Id 不正确");
+        toast.error("API key or model ID is invalid");
         throw new Error(data.error.message);
       }
 
@@ -160,7 +160,7 @@ export const useGrammarStore = create<GrammarStore>((set, get) => ({
         const grammarErrors = JSON.parse(aiResponse);
         if (grammarErrors.errors.length === 0) {
           set({ errors: [] });
-          toast.success("无语法错误");
+          toast.success("No grammar issues found");
           return;
         }
         set({ errors: grammarErrors.errors });
@@ -175,7 +175,7 @@ export const useGrammarStore = create<GrammarStore>((set, get) => ({
           });
         }
       } catch (parseError) {
-        toast.error(`解析AI响应失败: ${parseError}`);
+        toast.error(`Failed to parse AI response: ${parseError}`);
         set({ errors: [] });
       }
     } catch (error) {

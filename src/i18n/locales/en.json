@@ -58,6 +58,7 @@
       "preview": {
         "badge": "Real-time Preview",
         "title": "What You See Is What You Get",
+        "description": "Edit while previewing in real time. Supports multiple professional templates so your resume is both polished and standardized. Export PDF quickly and submit anytime.",
         "item1": "Real-time preview of editing effects",
         "item2": "Multiple export format support"
       }
@@ -413,6 +414,9 @@
       "basicField": "Basic",
       "customField": "Custom",
       "layout": "Align",
+      "layoutLeft": "Left",
+      "layoutCenter": "Center",
+      "layoutRight": "Right",
       "customFields": {
         "placeholders": {
           "label": "Label",
@@ -484,12 +488,14 @@
         "name": "Personal Project",
         "description": "Project Description",
         "role": "Responsibilities",
+        "technologies": "Tech Stack",
         "date": "2023.01 - 2023.06"
       },
       "placeholders": {
         "name": "Project Name",
         "description": "Briefly describe project background and goals",
         "role": "Your role and responsibilities in the project",
+        "technologies": "Technologies and tools used",
         "date": "Project time range",
         "link": "Project link "
       }

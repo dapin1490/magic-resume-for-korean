@@ -80,7 +80,7 @@ function RootComponent() {
 function RootNotFound() {
   return (
     <main className="min-h-screen flex items-center justify-center">
-      <p className="text-muted-foreground">页面不存在</p>
+      <p className="text-muted-foreground">Page not found</p>
     </main>
   );
 }

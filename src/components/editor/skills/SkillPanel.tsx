@@ -21,7 +21,7 @@ const SkillPanel = () => {
         value={skillContent}
         onChange={handleChange}
         type="editor"
-        placeholder="描述你的技能、专长等..."
+        placeholder="Describe your skills and strengths..."
       />
     </div>
   );

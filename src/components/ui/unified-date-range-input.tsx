@@ -15,7 +15,7 @@ interface UnifiedDateRangeInputProps {
 }
 
 const SEPARATOR = " - ";
-const PRESENT_VALUES = new Set(["至今", "Present", "Now"]);
+const PRESENT_VALUES = new Set(["Present", "Now", "至今"]);
 const DATE_WITH_DAY_PATTERN = /^\d{4}[./-]\d{2}[./-]\d{1,2}$/;
 
 const extractOptionalDay = (rawValue: string): string => {
@@ -90,7 +90,7 @@ export function UnifiedDateRangeInput({
     setOptionalDays({ start: extractOptionalDay(startRaw), end: extractOptionalDay(endRaw) });
   }, [value]);
 
-  const isPresent = value.includes("至今") || value.includes("Present");
+  const isPresent = PRESENT_VALUES.has(value.trim()) || value.endsWith(`${SEPARATOR}Present`) || value.endsWith(`${SEPARATOR}至今`);
 
   const updateValue = (
     newStart: CalendarDate | null,
@@ -113,7 +113,7 @@ export function UnifiedDateRangeInput({
 
     const startStr = newStart ? format(newStart, shouldIncludeStartDay, optionalDays.start) : "";
     const endStr = isPresent
-      ? (value.includes("至今") ? "至今" : "Present")
+      ? "Present"
       : (newEnd ? format(newEnd, shouldIncludeEndDay, optionalDays.end) : "");
 
     if (!startStr && !endStr) {
@@ -157,7 +157,7 @@ export function UnifiedDateRangeInput({
       const [currentStartValue = "", currentEndValue = ""] = value.includes(SEPARATOR)
         ? value.split(SEPARATOR)
         : [value, ""];
-      const nextEndText = currentEndValue || (isPresent ? (value.includes("至今") ? "至今" : "Present") : "");
+      const nextEndText = currentEndValue || (isPresent ? "Present" : "");
       if (!nextEndText) {
         onChange(nextStartText);
       } else {

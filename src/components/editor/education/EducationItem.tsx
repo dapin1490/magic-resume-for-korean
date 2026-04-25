@@ -182,7 +182,7 @@ const EducationItem = ({ education }: { education: Education }) => {
                     "text-foreground"
                   )}
                 >
-                  {education.school || "未填写学校"}
+                  {education.school || "School not set"}
                 </h3>
                 {(education.major || education.degree) && (
                   <p

@@ -30,7 +30,7 @@ const BaseInfo = ({ basic = {} as BasicInfo, globalSettings, template }: BaseInf
 
     const getOrderedFields = React.useMemo(() => {
         if (!basic.fieldOrder) {
-            return [{ key: "email", value: basic.email, icon: basic.icons?.email || "Mail", label: "电子邮箱", visible: true, custom: false }]
+            return [{ key: "email", value: basic.email, icon: basic.icons?.email || "Mail", label: "Email", visible: true, custom: false }]
                 .filter((item) => Boolean(item.value && item.visible));
         }
         return basic.fieldOrder

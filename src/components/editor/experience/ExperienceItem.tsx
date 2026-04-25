@@ -153,7 +153,7 @@ const ExperienceItem = ({ experience }: { experience: Experience }) => {
                 "text-foreground"
               )}
             >
-              {experience.company || "家里蹲公司"}
+              {experience.company || "Company not set"}
             </h3>
           </div>
           <div className="flex items-center gap-2 ml-4 shrink-0">

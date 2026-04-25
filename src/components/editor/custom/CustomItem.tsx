@@ -29,33 +29,33 @@ const CustomItemEditor = ({
       <div className="grid gap-5">
         <div className="grid grid-cols-2 gap-4">
           <Field
-            label="标题"
+            label="Title"
             value={item.title}
             onChange={(value) => handleChange("title", value)}
-            placeholder="标题"
+            placeholder="Title"
           />
           <Field
-            label="副标题"
+            label="Subtitle"
             value={item.subtitle}
             onChange={(value) => handleChange("subtitle", value)}
-            placeholder="副标题"
+            placeholder="Subtitle"
           />
         </div>
 
         <Field
-          label="时间范围"
+          label="Date range"
           value={item.dateRange}
           onChange={(value) => handleChange("dateRange", value)}
           type="date-range"
-          placeholder="例如: 2023.01 - 2024.01"
+          placeholder="e.g. 2023.01 - 2024.01"
         />
 
         <Field
-          label="详细描述"
+          label="Description"
           value={item.description}
           onChange={(value) => handleChange("description", value)}
           type="editor"
-          placeholder="请输入详细描述..."
+          placeholder="Enter a detailed description..."
         />
       </div>
     </div>
@@ -136,7 +136,7 @@ const CustomItem = ({
                  "font-medium truncate text-foreground"
               )}
             >
-              {item.title || "未命名模块"}
+              {item.title || "Untitled section"}
             </h3>
             {item.subtitle && (
               <p

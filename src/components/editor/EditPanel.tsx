@@ -78,7 +78,7 @@ export function EditPanel() {
               {menuSections?.find((s) => s.id === activeSection)?.icon}
             </span>
 
-            {/* 如果是基本信息的展示话展示div */}
+            {/* Show plain title for the basic section */}
             {activeSection === "basic" ? (
               <div>
                 <span className="text-lg font-semibold text-primary">
@@ -114,7 +114,7 @@ export function EditPanel() {
                       <Pencil size={16} className="text-primary" />
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>点击文字部分即可聚焦编辑</p>
+                      <p>Click the section title text to edit</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

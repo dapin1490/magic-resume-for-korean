@@ -149,10 +149,10 @@ export function EditorHeader({ isMobile }: EditorHeaderProps) {
             key={activeResume?.id || "resume-title"}
             defaultValue={activeResume?.title || ""}
             onBlur={(e) => {
-              updateResumeTitle(e.target.value || "未命名简历");
+              updateResumeTitle(e.target.value || "Untitled Resume");
             }}
             className="w-60  text-sm hidden md:block"
-            placeholder="简历名称"
+            placeholder="Resume title"
           />
 
           <ThemeToggle></ThemeToggle>

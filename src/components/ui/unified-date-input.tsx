@@ -58,7 +58,13 @@ export function UnifiedDateInput({
     return `${year}/${month}/${day}`;
   };
 
-  const isPresent = value === "至今" || value === "Present" || value.includes("Present") || value.includes("至今");
+  const isPresent =
+    value === "Present" ||
+    value === "Now" ||
+    value === "至今" ||
+    value.includes("Present") ||
+    value.includes("Now") ||
+    value.includes("至今");
 
   const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(() =>
     parseValue(value)

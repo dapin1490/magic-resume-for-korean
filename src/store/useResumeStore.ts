@@ -228,10 +228,10 @@ export const useResumeStore = create(
         let initialResumeData: any;
         if (isBlank) {
           initialResumeData =
-            locale === "en" ? blankResumeStateEn : blankResumeState;
+            locale === "zh" ? blankResumeState : blankResumeStateEn;
         } else {
           initialResumeData =
-            locale === "en" ? initialResumeStateEn : initialResumeState;
+            locale === "zh" ? initialResumeState : initialResumeStateEn;
         }
 
         const id = generateUUID();
@@ -245,7 +245,7 @@ export const useResumeStore = create(
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           templateId: template?.id,
-          title: `${locale === "en" ? "New Resume" : "新建简历"} ${id.slice(
+          title: `${locale === "zh" ? "新建简历" : "New Resume"} ${id.slice(
             0,
             6
           )}`,
@@ -366,9 +366,7 @@ export const useResumeStore = create(
         const duplicatedResume = {
           ...originalResume,
           id: newId,
-          title: `${originalResume.title} (${
-            locale === "en" ? "Copy" : "复制"
-          })`,
+          title: `${originalResume.title} (${locale === "zh" ? "复制" : "Copy"})`,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         };
@@ -609,7 +607,7 @@ export const useResumeStore = create(
             [sectionId]: [
               {
                 id: generateUUID(),
-                title: "未命名模块",
+                title: "Untitled Section",
                 subtitle: "",
                 dateRange: "",
                 description: "",
@@ -694,7 +692,7 @@ export const useResumeStore = create(
               ...(currentResume.customData[sectionId] || []),
               {
                 id: generateUUID(),
-                title: "未命名模块",
+                title: "Untitled Section",
                 subtitle: "",
                 dateRange: "",
                 description: "",

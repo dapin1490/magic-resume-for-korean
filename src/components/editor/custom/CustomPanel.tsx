@@ -36,7 +36,7 @@ const CustomPanel = memo(({ sectionId }: { sectionId: string }) => {
 
         <Button onClick={handleCreateItem} className={cn("w-full")}>
           <PlusCircle className="w-4 h-4 mr-2" />
-          添加
+          Add item
         </Button>
       </Reorder.Group>
     </div>

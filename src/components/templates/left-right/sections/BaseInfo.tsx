@@ -28,7 +28,7 @@ const BaseInfo = ({ basic = {} as BasicInfo, globalSettings, template }: BaseInf
 
     const getOrderedFields = React.useMemo(() => {
         if (!basic.fieldOrder) {
-            return [{ key: "email", value: basic.email, icon: basic.icons?.email || "Mail", label: "电子邮箱", visible: true, custom: false }]
+            return [{ key: "email", value: basic.email, icon: basic.icons?.email || "Mail", label: "Email", visible: true, custom: false }]
                 .filter((item) => Boolean(item.value && item.visible));
         }
         return basic.fieldOrder
@@ -47,8 +47,8 @@ const BaseInfo = ({ basic = {} as BasicInfo, globalSettings, template }: BaseInf
         })) || []),
     ];
 
-    const nameField = basic.fieldOrder?.find((f) => f.key === "name") || { key: "name", label: "姓名", visible: true };
-    const titleField = basic.fieldOrder?.find((f) => f.key === "title") || { key: "title", label: "职位", visible: true };
+    const nameField = basic.fieldOrder?.find((f) => f.key === "name") || { key: "name", label: "Name", visible: true };
+    const titleField = basic.fieldOrder?.find((f) => f.key === "title") || { key: "title", label: "Title", visible: true };
 
     const PhotoComponent = basic.photo && basic.photoConfig?.visible && (
         <motion.div layout="position">

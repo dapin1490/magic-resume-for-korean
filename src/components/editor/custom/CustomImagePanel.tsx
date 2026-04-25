@@ -123,7 +123,7 @@ const CustomImagePanel = ({ sectionId }: { sectionId: string }) => {
 
       <Button onClick={() => fileInputRef.current?.click()} className="w-full">
         <ImagePlus className="w-4 h-4 mr-2" />
-        이미지 추가
+        Add image
       </Button>
     </div>
   );

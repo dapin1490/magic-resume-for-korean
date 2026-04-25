@@ -34,12 +34,6 @@ import { STANDARD_MODULES } from "@/config/modules";
 import { DEFAULT_TEMPLATES } from "@/config";
 import { getFontOptions, normalizeFontFamily } from "@/utils/fonts";
 
-const lineHeightOptions = [
-  { value: "normal", label: "默认" },
-  { value: "relaxed", label: "适中" },
-  { value: "loose", label: "宽松" },
-];
-
 function SettingCard({
   icon: Icon,
   title,
@@ -514,7 +508,7 @@ export function SidePanel() {
                           }
                         }}
                       >
-                        <span className="sr-only">增加</span>
+                        <span className="sr-only">Increase</span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="12"
@@ -541,7 +535,7 @@ export function SidePanel() {
                           }
                         }}
                       >
-                        <span className="sr-only">减少</span>
+                        <span className="sr-only">Decrease</span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="12"
@@ -610,7 +604,7 @@ export function SidePanel() {
                           }
                         }}
                       >
-                        <span className="sr-only">增加</span>
+                        <span className="sr-only">Increase</span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="12"
@@ -638,7 +632,7 @@ export function SidePanel() {
                           }
                         }}
                       >
-                        <span className="sr-only">减少</span>
+                        <span className="sr-only">Decrease</span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="12"
@@ -707,7 +701,7 @@ export function SidePanel() {
                           }
                         }}
                       >
-                        <span className="sr-only">增加</span>
+                        <span className="sr-only">Increase</span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="12"
@@ -735,7 +729,7 @@ export function SidePanel() {
                           }
                         }}
                       >
-                        <span className="sr-only">减少</span>
+                        <span className="sr-only">Decrease</span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="12"

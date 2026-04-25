@@ -10,11 +10,11 @@ const CustomTextPanel = memo(({ sectionId }: { sectionId: string }) => {
   return (
     <div className={cn("space-y-4 px-4 py-4 rounded-lg", "bg-card")}>
       <Field
-        label="내용"
+        label="Content"
         value={content}
         onChange={(value) => updateCustomTextData(sectionId, value)}
         type="editor"
-        placeholder="섹션 내용을 입력하세요"
+        placeholder="Enter section content"
       />
     </div>
   );

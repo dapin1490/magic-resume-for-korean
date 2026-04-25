@@ -24,7 +24,7 @@ const AlignSelector: React.FC<AlignSelectorProps> = ({ value, onChange }) => {
           <rect x="27" y="29" width="13" height="2" className="fill-current" />
         </svg>
       ),
-      tooltip: "左对齐",
+      tooltip: "Align left",
     },
     {
       value: "center",
@@ -48,7 +48,7 @@ const AlignSelector: React.FC<AlignSelectorProps> = ({ value, onChange }) => {
           <rect x="17" y="35" width="14" height="2" className="fill-current" />
         </svg>
       ),
-      tooltip: "居中",
+      tooltip: "Align center",
     },
     {
       value: "right",
@@ -66,7 +66,7 @@ const AlignSelector: React.FC<AlignSelectorProps> = ({ value, onChange }) => {
           <rect x="8" y="29" width="13" height="2" className="fill-current" />
         </svg>
       ),
-      tooltip: "右对齐",
+      tooltip: "Align right",
     },
   ];
 

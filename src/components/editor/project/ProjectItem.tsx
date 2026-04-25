@@ -195,7 +195,7 @@ const ProjectItem = ({ project }: { project: Project }) => {
                 "text-gray-700 dark:text-neutral-200"
               )}
             >
-              {project.name || "未命名项目"}
+              {project.name || "Untitled project"}
             </h3>
           </div>
           <div className="flex items-center gap-2 ml-4 shrink-0">

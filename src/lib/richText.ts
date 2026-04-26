@@ -1,3 +1,5 @@
+import katex from "katex";
+
 const HTML_TAG_REGEX = /<\/?[a-z][\s\S]*>/i;
 const EMPTY_PARAGRAPH_REGEX = /<p>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi;
 const HTML_BREAK_REGEX = /<br\s*\/?>/gi;
@@ -14,12 +16,47 @@ const DOMAIN_REGEX =
 const SAFE_LINK_PROTOCOL_REGEX = /^(https?:|mailto:|tel:)/i;
 const ANY_PROTOCOL_REGEX = /^[a-z][a-z\d+\-.]*:/i;
 const LEGACY_RICH_TEXT_CLASSES = new Set(["custom-list", "custom-list-ordered"]);
+const LATEX_BLOCK_REGEX = /\$\$([\s\S]+?)\$\$/g;
+const LATEX_INLINE_REGEX = /(?<!\\)\$(?!\$)(.+?)(?<!\\)\$/g;
 
 const escapeHtml = (text: string) =>
   text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+
+const unescapeLatexDelimiter = (text: string) =>
+  text.replace(/\\\$/g, "$");
+
+const renderLatex = (expression: string, displayMode: boolean) => {
+  try {
+    return katex.renderToString(expression, {
+      throwOnError: false,
+      displayMode,
+      output: "html",
+      strict: "ignore",
+    });
+  } catch {
+    const escapedExpression = escapeHtml(expression);
+    return displayMode
+      ? `<pre class="latex-fallback">$$${escapedExpression}$$</pre>`
+      : `<code class="latex-fallback">$${escapedExpression}$</code>`;
+  }
+};
+
+const renderLatexExpressions = (content: string) => {
+  const withBlockMath = content.replace(
+    LATEX_BLOCK_REGEX,
+    (_fullMatch, expression: string) => renderLatex(expression.trim(), true)
+  );
+
+  const withInlineMath = withBlockMath.replace(
+    LATEX_INLINE_REGEX,
+    (_fullMatch, expression: string) => renderLatex(expression.trim(), false)
+  );
+
+  return unescapeLatexDelimiter(withInlineMath);
+};
 
 const decorateRichTextAnchors = (content: string) =>
   content.replace(RICH_TEXT_ANCHOR_REGEX, (match, attrs: string) => {
@@ -111,8 +148,10 @@ export const normalizeRichTextContent = (content?: string) => {
     normalized = escapeHtml(content).replace(/\r\n|\r|\n/g, "<br />");
   }
 
+  const withLatex = renderLatexExpressions(normalized);
+
   return decorateRichTextAnchors(
-    stripTrailingListParagraph(stripLegacyRichTextClasses(normalized))
+    stripTrailingListParagraph(stripLegacyRichTextClasses(withLatex))
   ).replace(
     EMPTY_PARAGRAPH_REGEX,
     "<p><br /></p>"

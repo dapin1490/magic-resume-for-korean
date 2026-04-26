@@ -29,6 +29,7 @@ interface ResumeCardItemProps {
     t: any;
     locale: string;
     setActiveResume: (id: string) => void;
+    duplicateResume: (id: string) => string;
     router: any;
     deleteResume: (resume: any) => void;
     index: number;
@@ -40,6 +41,7 @@ export const ResumeCardItem = ({
     t,
     locale,
     setActiveResume,
+    duplicateResume,
     router,
     deleteResume,
     index,
@@ -122,7 +124,7 @@ export const ResumeCardItem = ({
                     </div>
                 </CardContent>
                 <CardFooter className="pt-2 pb-2 px-2 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800 z-10">
-                    <div className="grid grid-cols-2 gap-2 w-full">
+                    <div className="grid grid-cols-3 gap-2 w-full">
                         <motion.div
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -143,6 +145,31 @@ export const ResumeCardItem = ({
                                 }}
                             >
                                 {t("common.edit")}
+                            </Button>
+                        </motion.div>
+
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 17,
+                            }}
+                        >
+                            <Button
+                                variant="outline"
+                                className="w-full text-sm hover:bg-gray-100 dark:border-primary/50 dark:hover:bg-primary/10"
+                                size="sm"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const newResumeId = duplicateResume(id);
+                                    setActiveResume(newResumeId);
+                                    toast.success(t("previewDock.copyResume.success"));
+                                    router.push(`/app/workbench/${newResumeId}`);
+                                }}
+                            >
+                                {t("common.copy")}
                             </Button>
                         </motion.div>
 

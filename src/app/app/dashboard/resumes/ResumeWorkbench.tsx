@@ -39,6 +39,7 @@ export const ResumeWorkbench = () => {
     const {
         resumes,
         setActiveResume,
+        duplicateResume,
         addResume,
         deleteResume,
         createResume,
@@ -402,6 +403,7 @@ export const ResumeWorkbench = () => {
                                         t={t}
                                         locale={locale}
                                         setActiveResume={setActiveResume}
+                                        duplicateResume={duplicateResume}
                                         router={router}
                                         deleteResume={deleteResume}
                                         index={index}

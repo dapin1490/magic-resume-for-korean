@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo, useRef } from "react";
+import { ChangeEvent, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Layout, Type, SpaceIcon, Palette, Zap } from "lucide-react";
 import debounce from "lodash/debounce";
@@ -61,6 +61,13 @@ const resolveLocalFontFormat = (file: File) => {
 
 const extractFontFamilyName = (fileName: string) =>
   fileName.replace(/\.[^/.]+$/, "").trim() || "LocalFont";
+
+type LocalFontApiItem = {
+  family: string;
+  fullName?: string;
+  postscriptName?: string;
+  blob: () => Promise<Blob>;
+};
 
 function SettingCard({
   icon: Icon,
@@ -142,6 +149,13 @@ export function SidePanel() {
     ? `"${localFontFamilyName}", sans-serif`
     : normalizeFontFamily(globalSettings?.fontFamily);
   const localFontFileInputRef = useRef<HTMLInputElement>(null);
+  const [localSystemFonts, setLocalSystemFonts] = useState<LocalFontApiItem[]>([]);
+  const [isLoadingLocalSystemFonts, setIsLoadingLocalSystemFonts] = useState(false);
+  const [selectedLocalSystemFontKey, setSelectedLocalSystemFontKey] = useState("");
+  const supportsLocalFontAccessApi =
+    typeof window !== "undefined" &&
+    typeof (window as unknown as { queryLocalFonts?: () => Promise<LocalFontApiItem[]> })
+      .queryLocalFonts === "function";
 
   const lineHeightOptions = [
     { value: "normal", label: t("typography.lineHeight.normal") },
@@ -237,6 +251,75 @@ export function SidePanel() {
       localFontDataUrl: undefined,
       localFontFormat: undefined,
     });
+  };
+
+  const handleLoadLocalSystemFonts = async () => {
+    if (!supportsLocalFontAccessApi) {
+      return;
+    }
+
+    try {
+      setIsLoadingLocalSystemFonts(true);
+      const queryLocalFonts = (
+        window as unknown as { queryLocalFonts: () => Promise<LocalFontApiItem[]> }
+      ).queryLocalFonts;
+      const fonts = await queryLocalFonts();
+      const uniqueFonts = Array.from(
+        new Map(
+          fonts.map((font) => {
+            const fontKey = `${font.postscriptName || ""}|${font.fullName || ""}|${font.family}`;
+            return [fontKey, font];
+          })
+        ).values()
+      ).sort((firstFont, secondFont) =>
+        firstFont.family.localeCompare(secondFont.family)
+      );
+      setLocalSystemFonts(uniqueFonts);
+    } finally {
+      setIsLoadingLocalSystemFonts(false);
+    }
+  };
+
+  const handleSelectLocalSystemFont = async (fontKey: string) => {
+    setSelectedLocalSystemFontKey(fontKey);
+    const targetFont = localSystemFonts.find((font) => {
+      const localFontKey = `${font.postscriptName || ""}|${font.fullName || ""}|${font.family}`;
+      return localFontKey === fontKey;
+    });
+
+    if (!targetFont) {
+      return;
+    }
+
+    const fontBlob = await targetFont.blob();
+    const fileReader = new FileReader();
+    fileReader.onloadend = () => {
+      const fontDataUrl = typeof fileReader.result === "string"
+        ? fileReader.result
+        : "";
+
+      if (!fontDataUrl) {
+        return;
+      }
+
+      const blobType = fontBlob.type.toLowerCase();
+      const localFontFormat = blobType.includes("woff2")
+        ? "woff2"
+        : blobType.includes("woff")
+          ? "woff"
+          : blobType.includes("opentype")
+            ? "opentype"
+            : "truetype";
+
+      const localFontFamily = targetFont.family;
+      updateGlobalSettings?.({
+        fontFamily: `"${localFontFamily}", sans-serif`,
+        localFontFamily,
+        localFontDataUrl: fontDataUrl,
+        localFontFormat,
+      });
+    };
+    fileReader.readAsDataURL(fontBlob);
   };
   return (
     <motion.div
@@ -430,6 +513,44 @@ export function SidePanel() {
                 >
                   {t("typography.font.uploadLocal")}
                 </button>
+                {supportsLocalFontAccessApi && (
+                  <>
+                    <button
+                      type="button"
+                      className="w-full rounded-md border border-input px-3 py-2 text-sm text-left hover:bg-accent transition-colors"
+                      onClick={handleLoadLocalSystemFonts}
+                      disabled={isLoadingLocalSystemFonts}
+                    >
+                      {isLoadingLocalSystemFonts
+                        ? t("typography.font.loadingLocalSystemFonts")
+                        : t("typography.font.pickFromSystem")}
+                    </button>
+                    {localSystemFonts.length > 0 && (
+                      <Select
+                        value={selectedLocalSystemFontKey}
+                        onValueChange={handleSelectLocalSystemFont}
+                      >
+                        <SelectTrigger className="border border-input bg-background transition-colors">
+                          <SelectValue placeholder={t("typography.font.selectSystemFont")} />
+                        </SelectTrigger>
+                        <SelectContent className={cn("bg-popover border-border")}>
+                          {localSystemFonts.map((font) => {
+                            const localFontKey = `${font.postscriptName || ""}|${font.fullName || ""}|${font.family}`;
+                            return (
+                              <SelectItem
+                                key={localFontKey}
+                                value={localFontKey}
+                                className="cursor-pointer transition-colors hover:bg-accent focus:bg-accent"
+                              >
+                                {font.fullName || font.family}
+                              </SelectItem>
+                            );
+                          })}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  </>
+                )}
                 {hasLocalFont && (
                   <div className="rounded-md border border-border px-3 py-2 text-xs space-y-2">
                     <p className="text-muted-foreground">

@@ -321,6 +321,9 @@
           "notosanskr": "Noto Sans KR",
           "pretendard": "Pretendard",
           "uploadLocal": "로컬 폰트 업로드",
+          "pickFromSystem": "설치된 폰트에서 선택",
+          "loadingLocalSystemFonts": "설치된 폰트 불러오는 중...",
+          "selectSystemFont": "설치된 폰트 선택",
           "removeLocal": "로컬 폰트 해제",
           "note": "MiSans는 라이선스에 따라 무료 상업 사용이 가능합니다. 배포 시 폰트 표기를 유지하세요."
         },

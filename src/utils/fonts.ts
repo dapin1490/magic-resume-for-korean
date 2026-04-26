@@ -272,15 +272,13 @@ const findFontDefinition = (fontFamily?: string) => {
     return FONT_DEFINITIONS[0];
   }
 
-  return (
-    FONT_DEFINITIONS.find(
-      (definition) =>
-        definition.value === normalizedValue ||
-        definition.aliases.includes(normalizedValue) ||
-        definition.aliases.some((alias) =>
-          normalizedValue.includes(alias.replace(/"/g, ""))
-        )
-    ) || FONT_DEFINITIONS[0]
+  return FONT_DEFINITIONS.find(
+    (definition) =>
+      definition.value === normalizedValue ||
+      definition.aliases.includes(normalizedValue) ||
+      definition.aliases.some((alias) =>
+        normalizedValue.includes(alias.replace(/"/g, ""))
+      )
   );
 };
 
@@ -301,7 +299,7 @@ const buildLocalFontFaceRule = (localFont: LocalFontDefinition) => `@font-face {
 }`;
 
 export const normalizeFontFamily = (fontFamily?: string) =>
-  findFontDefinition(fontFamily).value;
+  findFontDefinition(fontFamily)?.value || fontFamily?.trim() || DEFAULT_FONT_FAMILY;
 
 export const getFontOptions = (t: (key: string) => string) =>
   FONT_DEFINITIONS.map((definition) => ({
@@ -314,11 +312,15 @@ export const getFontFaceCss = async (
   inline = false,
   localFont?: LocalFontDefinition
 ) => {
+  const normalizedValue = fontFamily?.trim();
   if (localFont && fontFamily?.includes(localFont.family)) {
     return buildLocalFontFaceRule(localFont);
   }
 
-  const definition = findFontDefinition(fontFamily);
+  const definition = findFontDefinition(normalizedValue);
+  if (!definition) {
+    return "";
+  }
 
   const rules = await Promise.all(
     definition.sources.map(async (source) => {

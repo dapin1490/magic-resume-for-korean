@@ -369,6 +369,9 @@
           "notosanskr": "Noto Sans KR",
           "pretendard": "Pretendard",
           "uploadLocal": "Upload Local Font",
+          "pickFromSystem": "Choose Installed Font",
+          "loadingLocalSystemFonts": "Loading Installed Fonts...",
+          "selectSystemFont": "Select an installed font",
           "removeLocal": "Remove Local Font",
           "note": "MiSans is used under its free commercial license. Keep MiSans attribution when distributing this project."
         },

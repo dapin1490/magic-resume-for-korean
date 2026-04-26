@@ -24,7 +24,10 @@ export default function LanguageSwitch() {
     const currentPathLocale = getLocaleFromPathname(pathname);
     if (currentPathLocale) {
       navigate({ to: replacePathLocale(pathname, nextLocale) });
+      return;
     }
+
+    window.location.reload();
   };
 
   return (

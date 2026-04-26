@@ -153,6 +153,14 @@ const PdfExport = ({ children }: { children?: React.ReactNode }) => {
   };
 
   const isLoading = isExporting || isExportingJson || isExportingMarkdown || isPrinting;
+  const hasLocalFont = Boolean(globalSettings?.localFontFamily) && Boolean(globalSettings?.localFontDataUrl);
+  const isKoreanBuiltInFontSelected = [
+    "Nanum Gothic",
+    "Nanum Myeongjo",
+    "Noto Sans KR",
+    "Pretendard",
+  ].some((fontName) => (globalSettings?.fontFamily || "").includes(fontName));
+  const isPdfExportDisabled = hasLocalFont;
   const loadingText = isExporting
     ? t("button.exporting")
     : isExportingJson
@@ -204,9 +212,18 @@ const PdfExport = ({ children }: { children?: React.ReactNode }) => {
           <ExportCard
             icon={PdfGlassIcon}
             title={t("button.exportPdf")}
-            description={t("modal.pdfDesc")}
-            isLoading={isExporting}
-            onClick={handleExport}
+            description={
+              isPdfExportDisabled
+                ? t("modal.pdfDisabledForLocalFont")
+                : t("modal.pdfDesc")
+            }
+            isLoading={isExporting || isPdfExportDisabled}
+            onClick={() => {
+              if (isPdfExportDisabled) {
+                return;
+              }
+              handleExport();
+            }}
             bgGradientClass="from-rose-500/10 dark:from-rose-500/20"
             hoverBorderClass="hover:border-rose-500/40 hover:ring-1 hover:ring-rose-500/20"
           />
@@ -238,6 +255,13 @@ const PdfExport = ({ children }: { children?: React.ReactNode }) => {
             hoverBorderClass="hover:border-indigo-500/40 hover:ring-1 hover:ring-indigo-500/20"
           />
         </div>
+        {(hasLocalFont || isKoreanBuiltInFontSelected) && (
+          <p className="text-xs text-muted-foreground leading-5">
+            {hasLocalFont
+              ? t("modal.localFontPrintRecommendation")
+              : t("modal.koreanFontPrintRecommendation")}
+          </p>
+        )}
       </DialogContent>
     </Dialog>
   );

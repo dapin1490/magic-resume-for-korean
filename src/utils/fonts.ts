@@ -13,6 +13,14 @@ type FontDefinition = {
   sources: FontSource[];
 };
 
+export type LocalFontFormat = "truetype" | "opentype" | "woff" | "woff2";
+
+export type LocalFontDefinition = {
+  family: string;
+  dataUrl: string;
+  format: LocalFontFormat;
+};
+
 export const DEFAULT_FONT_FAMILY = "\"Alibaba PuHuiTi\", sans-serif";
 
 const FONT_DEFINITIONS: FontDefinition[] = [
@@ -284,6 +292,14 @@ const buildFontFaceRule = (source: FontSource, resolvedUrl: string) => `@font-fa
   font-display: swap;
 }`;
 
+const buildLocalFontFaceRule = (localFont: LocalFontDefinition) => `@font-face {
+  font-family: "${localFont.family}";
+  src: url("${localFont.dataUrl}") format("${localFont.format}");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}`;
+
 export const normalizeFontFamily = (fontFamily?: string) =>
   findFontDefinition(fontFamily).value;
 
@@ -295,8 +311,13 @@ export const getFontOptions = (t: (key: string) => string) =>
 
 export const getFontFaceCss = async (
   fontFamily?: string,
-  inline = false
+  inline = false,
+  localFont?: LocalFontDefinition
 ) => {
+  if (localFont && fontFamily?.includes(localFont.family)) {
+    return buildLocalFontFaceRule(localFont);
+  }
+
   const definition = findFontDefinition(fontFamily);
 
   const rules = await Promise.all(

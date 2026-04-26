@@ -258,9 +258,12 @@
       "title": "이력서 내보내기",
       "subtitle": "원하는 내보내기 형식을 선택하세요",
       "pdfDesc": "고정밀 렌더링으로 형식을 정확하게 유지합니다. 정식 제출에 권장됩니다.",
+      "pdfDisabledForLocalFont": "로컬 폰트 사용 중에는 서버 PDF 내보내기를 사용할 수 없습니다. 브라우저 프린트를 사용해 주세요.",
       "printDesc": "시스템 인쇄 기능으로 PDF 저장. 렌더링이 혼잡할 때의 대체 방법입니다.",
       "jsonDesc": "설정 백업 파일을 저장합니다. 기기 변경 시 복원할 수 있습니다.",
-      "markdownDesc": "Markdown 형식으로 변환해 다른 편집기나 AI 도구에서 활용하기 쉽습니다."
+      "markdownDesc": "Markdown 형식으로 변환해 다른 편집기나 AI 도구에서 활용하기 쉽습니다.",
+      "localFontPrintRecommendation": "로컬 폰트가 활성화되어 있습니다. 서버 PDF 내보내기에서 로컬 폰트 파일을 포함할 수 없으므로 브라우저 프린트를 사용해 주세요.",
+      "koreanFontPrintRecommendation": "한국어 폰트는 브라우저 프린트 사용을 권장합니다. 출력 결과가 더 안정적입니다."
     },
     "button": {
       "export": "내보내기",
@@ -317,6 +320,8 @@
           "nanummyeongjo": "Nanum Myeongjo",
           "notosanskr": "Noto Sans KR",
           "pretendard": "Pretendard",
+          "uploadLocal": "로컬 폰트 업로드",
+          "removeLocal": "로컬 폰트 해제",
           "note": "MiSans는 라이선스에 따라 무료 상업 사용이 가능합니다. 배포 시 폰트 표기를 유지하세요."
         },
         "lineHeight": {

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { ChangeEvent, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { Layout, Type, SpaceIcon, Palette, Zap } from "lucide-react";
 import debounce from "lodash/debounce";
@@ -33,6 +33,34 @@ import { Plus } from "lucide-react";
 import { STANDARD_MODULES } from "@/config/modules";
 import { DEFAULT_TEMPLATES } from "@/config";
 import { getFontOptions, normalizeFontFamily } from "@/utils/fonts";
+
+const LOCAL_FONT_PREFIX = "Local Font: ";
+
+const resolveLocalFontFormat = (file: File) => {
+  const lowerFileName = file.name.toLowerCase();
+  const mimeType = file.type.toLowerCase();
+
+  if (lowerFileName.endsWith(".woff2") || mimeType.includes("woff2")) {
+    return "woff2" as const;
+  }
+
+  if (lowerFileName.endsWith(".woff") || mimeType.includes("woff")) {
+    return "woff" as const;
+  }
+
+  if (lowerFileName.endsWith(".otf") || mimeType.includes("opentype")) {
+    return "opentype" as const;
+  }
+
+  if (lowerFileName.endsWith(".ttf") || mimeType.includes("truetype")) {
+    return "truetype" as const;
+  }
+
+  return null;
+};
+
+const extractFontFamilyName = (fileName: string) =>
+  fileName.replace(/\.[^/.]+$/, "").trim() || "LocalFont";
 
 function SettingCard({
   icon: Icon,
@@ -107,7 +135,13 @@ export function SidePanel() {
   }, [availableModules, menuSections]);
 
   const fontOptions = getFontOptions((key) => t(`typography.font.${key}`));
-  const selectedFontFamily = normalizeFontFamily(globalSettings?.fontFamily);
+  const localFontFamilyName = globalSettings?.localFontFamily;
+  const hasLocalFont =
+    Boolean(localFontFamilyName) && Boolean(globalSettings?.localFontDataUrl);
+  const selectedFontFamily = hasLocalFont
+    ? `"${localFontFamilyName}", sans-serif`
+    : normalizeFontFamily(globalSettings?.fontFamily);
+  const localFontFileInputRef = useRef<HTMLInputElement>(null);
 
   const lineHeightOptions = [
     { value: "normal", label: t("typography.lineHeight.normal") },
@@ -148,6 +182,61 @@ export function SidePanel() {
 
     updateMenuSections([...menuSections, newSection]);
     addCustomData(sectionId, sectionType);
+  };
+
+  const handleSelectBuiltInFont = (value: string) => {
+    updateGlobalSettings?.({
+      fontFamily: value,
+      localFontFamily: undefined,
+      localFontDataUrl: undefined,
+      localFontFormat: undefined,
+    });
+  };
+
+  const handleLocalFontUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (!selectedFile) {
+      return;
+    }
+
+    const localFontFormat = resolveLocalFontFormat(selectedFile);
+    if (!localFontFormat) {
+      event.target.value = "";
+      return;
+    }
+
+    const fileReader = new FileReader();
+    fileReader.onloadend = () => {
+      const fontDataUrl = typeof fileReader.result === "string"
+        ? fileReader.result
+        : "";
+
+      if (!fontDataUrl) {
+        return;
+      }
+
+      const localFontFamily = extractFontFamilyName(selectedFile.name);
+      const localFontFamilyValue = `"${localFontFamily}", sans-serif`;
+
+      updateGlobalSettings?.({
+        fontFamily: localFontFamilyValue,
+        localFontFamily,
+        localFontDataUrl: fontDataUrl,
+        localFontFormat,
+      });
+    };
+
+    fileReader.readAsDataURL(selectedFile);
+    event.target.value = "";
+  };
+
+  const handleClearLocalFont = () => {
+    updateGlobalSettings?.({
+      fontFamily: undefined,
+      localFontFamily: undefined,
+      localFontDataUrl: undefined,
+      localFontFormat: undefined,
+    });
   };
   return (
     <motion.div
@@ -297,9 +386,7 @@ export function SidePanel() {
               </Label>
               <Select
                 value={selectedFontFamily}
-                onValueChange={(value) =>
-                  updateGlobalSettings?.({ fontFamily: value })
-                }
+                onValueChange={handleSelectBuiltInFont}
               >
                 <motion.div
                   whileHover={{ scale: 1.01 }}
@@ -328,6 +415,37 @@ export function SidePanel() {
               <p className="text-xs leading-5 text-muted-foreground">
                 {t("typography.font.note")}
               </p>
+              <div className="pt-2 space-y-2">
+                <input
+                  ref={localFontFileInputRef}
+                  type="file"
+                  accept=".ttf,.otf,.woff,.woff2,font/ttf,font/otf,font/woff,font/woff2"
+                  className="hidden"
+                  onChange={handleLocalFontUpload}
+                />
+                <button
+                  type="button"
+                  className="w-full rounded-md border border-input px-3 py-2 text-sm text-left hover:bg-accent transition-colors"
+                  onClick={() => localFontFileInputRef.current?.click()}
+                >
+                  {t("typography.font.uploadLocal")}
+                </button>
+                {hasLocalFont && (
+                  <div className="rounded-md border border-border px-3 py-2 text-xs space-y-2">
+                    <p className="text-muted-foreground">
+                      {LOCAL_FONT_PREFIX}
+                      {localFontFamilyName}
+                    </p>
+                    <button
+                      type="button"
+                      className="text-xs text-red-500 hover:text-red-600 transition-colors"
+                      onClick={handleClearLocalFont}
+                    >
+                      {t("typography.font.removeLocal")}
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* 行高选择 */}

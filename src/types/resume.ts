@@ -133,6 +133,9 @@ export type CustomSectionLayoutType =
 export type GlobalSettings = {
   themeColor?: string | undefined;
   fontFamily?: string | undefined;
+  localFontFamily?: string | undefined;
+  localFontDataUrl?: string | undefined;
+  localFontFormat?: "truetype" | "opentype" | "woff" | "woff2" | undefined;
   baseFontSize?: number | undefined;
   pagePadding?: number | undefined;
   paragraphSpacing?: number | undefined;

@@ -259,9 +259,12 @@
       "title": "Export Resume",
       "subtitle": "Select the format you want to export your resume",
       "pdfDesc": "High-precision rendering with 100% format accuracy. Recommended for job applications.",
+      "pdfDisabledForLocalFont": "Server PDF export is unavailable for local fonts. Please use Browser Print instead.",
       "printDesc": "Save via system print dialog. Use as a fallback or for custom margins.",
       "jsonDesc": "Export your resume data as JSON to backup or transfer between devices.",
-      "markdownDesc": "Convert to plain Markdown text for easy sharing with AI models."
+      "markdownDesc": "Convert to plain Markdown text for easy sharing with AI models.",
+      "localFontPrintRecommendation": "Local font is active. Use Browser Print for export because server PDF export cannot embed your local font file.",
+      "koreanFontPrintRecommendation": "For Korean fonts, Browser Print is recommended for more stable visual output."
     },
     "button": {
       "export": "Export",
@@ -365,6 +368,8 @@
           "nanummyeongjo": "Nanum Myeongjo",
           "notosanskr": "Noto Sans KR",
           "pretendard": "Pretendard",
+          "uploadLocal": "Upload Local Font",
+          "removeLocal": "Remove Local Font",
           "note": "MiSans is used under its free commercial license. Keep MiSans attribution when distributing this project."
         },
         "lineHeight": {

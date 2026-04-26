@@ -14,7 +14,7 @@ const initialGlobalSettings: GlobalSettings = {
 };
 
 export const initialResumeState = {
-  title: "新建简历",
+  title: "New Resume",
   basic: {
     name: "宋哈娜",
     title: "高级前端工程师",
@@ -35,7 +35,7 @@ export const initialResumeState = {
     customFields: [
       {
         id: "personal",
-        label: "个人网站",
+        label: "Website",
         value: "https://zhangsan.dev",
         icon: "Globe",
       },
@@ -139,11 +139,11 @@ export const initialResumeState = {
     },
   ],
   menuSections: [
-    { id: "basic", title: "基本信息", icon: "👤", enabled: true, order: 0 },
-    { id: "skills", title: "专业技能", icon: "⚡", enabled: true, order: 1 },
+    { id: "basic", title: "Profile", icon: "👤", enabled: true, order: 0 },
+    { id: "skills", title: "Skills", icon: "⚡", enabled: true, order: 1 },
     {
       id: "experience",
-      title: "工作经验",
+      title: "Experience",
       icon: "💼",
       enabled: true,
       order: 2,
@@ -151,14 +151,14 @@ export const initialResumeState = {
 
     {
       id: "projects",
-      title: "项目经历",
+      title: "Projects",
       icon: "🚀",
       enabled: true,
       order: 3,
     },
     {
       id: "education",
-      title: "教育经历",
+      title: "Education",
       icon: "🎓",
       enabled: true,
       order: 4,
@@ -339,7 +339,7 @@ export const initialResumeStateEn = {
 
 export const blankResumeState = {
   ...initialResumeState,
-  title: "新建简历",
+  title: "New Resume",
   basic: {
     ...initialResumeState.basic,
     name: "",

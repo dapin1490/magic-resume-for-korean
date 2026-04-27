@@ -1,5 +1,5 @@
 import { generateUUID } from "@/utils/uuid";
-import { initialResumeState } from "@/config/initialResumeData";
+import { initialResumeState, initialResumeStateEn } from "@/config/initialResumeData";
 import { DEFAULT_TEMPLATES } from "@/config";
 
 export const escapeHtml = (value: string) =>
@@ -59,9 +59,15 @@ export const extractJsonContent = (content: string) => {
   throw new Error("Invalid AI JSON content");
 };
 
-export const createResumeFromAIResult = (result: any, fileName: string) => {
+export const createResumeFromAIResult = (
+  result: any,
+  fileName: string,
+  locale: string
+) => {
   const now = new Date().toISOString();
   const id = generateUUID();
+  const localeBaseResumeState =
+    locale === "zh" ? initialResumeState : initialResumeStateEn;
 
   const education = Array.isArray(result?.education) ? result.education : [];
   const experience = Array.isArray(result?.experience) ? result.experience : [];
@@ -71,14 +77,14 @@ export const createResumeFromAIResult = (result: any, fileName: string) => {
   const skillContent = toListHtml(skillSource);
 
   return {
-    ...initialResumeState,
+    ...localeBaseResumeState,
     id,
     title: toString(result?.title) || fileName || `Imported Resume ${id.slice(0, 6)}`,
     createdAt: now,
     updatedAt: now,
     templateId: DEFAULT_TEMPLATES[0]?.id,
     basic: {
-      ...initialResumeState.basic,
+      ...localeBaseResumeState.basic,
       name: toString(result?.basic?.name),
       title: toString(result?.basic?.title),
       email: toString(result?.basic?.email),

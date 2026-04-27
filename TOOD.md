@@ -1,13 +1,14 @@
 ## 미완료
 
-- [ ] 신규 이력서 생성 시 기본 로케일 fallback을 `en`으로 정렬
-  - `useResumeStore.createResume`의 `NEXT_LOCALE` 미존재 fallback이 `"zh"`로 되어 있어 `defaultLocale: "en"` 정책과 불일치
-- [ ] JSON/PDF 가져오기 시 로케일에 맞는 초기 베이스 데이터 사용
-  - 가져오기 과정에서 `initialResumeState` 고정 기반으로 병합되어 누락 필드에 중국어 기본값이 섞일 수 있음
 - [ ] 백업 폴더를 변경했을 때, 이전에 사용했던 백업 폴더에 대한 접근 권한이 삭제되는지 확인할 것.
 
 ## 완료
 
+- [x] 신규 이력서 생성 시 기본 로케일 fallback을 `en`으로 정렬
+  - `useResumeStore.createResume`의 `NEXT_LOCALE` 미존재 fallback을 `"en"`으로 조정해 `defaultLocale: "en"` 정책과 일치시킴
+- [x] JSON/PDF 가져오기 시 로케일에 맞는 초기 베이스 데이터 사용
+  - JSON/PDF 가져오기 경로에서 `zh`만 중국어 베이스를 사용하고, 그 외 로케일은 영어 베이스를 사용하도록 분기
+  - `createResumeFromAIResult`에 로케일 인자를 추가해 AI 가져오기 결과 병합 시에도 동일 기준 적용
 - [x] 템플릿 미리보기(CreateResumeModal)에서 로케일에 맞는 초기 데이터 사용
   - `CreateResumeModal`의 미리보기 베이스를 `zh`/`en` 기준으로 분기해 한국어 환경에서 중국어 샘플이 노출되지 않도록 조정
   - 스냅샷/템플릿 미리보기 fallback도 `zh` 기본 대신 `en` 기본으로 정렬

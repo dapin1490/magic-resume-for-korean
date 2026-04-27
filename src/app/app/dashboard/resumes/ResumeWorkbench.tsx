@@ -109,10 +109,12 @@ export const ResumeWorkbench = () => {
         const config = JSON.parse(content);
         const now = new Date().toISOString();
         const { generateUUID } = await import("@/utils/uuid");
-        const { initialResumeState } = await import("@/config/initialResumeData");
+        const { initialResumeState, initialResumeStateEn } = await import("@/config/initialResumeData");
+        const localeBaseResumeState =
+            locale === "zh" ? initialResumeState : initialResumeStateEn;
 
         const newResume = {
-            ...initialResumeState,
+            ...localeBaseResumeState,
             ...config,
             id: generateUUID(),
             createdAt: now,
@@ -213,7 +215,7 @@ export const ResumeWorkbench = () => {
         }
 
         const nameWithoutExt = file.name.replace(/\.[^.]+$/, "").trim();
-        const resume = createResumeFromAIResult(aiResume, nameWithoutExt);
+        const resume = createResumeFromAIResult(aiResume, nameWithoutExt, locale);
         const resumeId = addResume(resume);
         setActiveResume(resumeId);
         setIsImportDialogOpen(false);

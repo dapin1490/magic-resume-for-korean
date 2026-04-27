@@ -222,8 +222,8 @@ export const useResumeStore = create(
             ? document.cookie
                 .split("; ")
                 .find((row) => row.startsWith("NEXT_LOCALE="))
-                ?.split("=")[1] || "zh"
-            : "zh";
+                ?.split("=")[1] || "en"
+            : "en";
 
         let initialResumeData: any;
         if (isBlank) {

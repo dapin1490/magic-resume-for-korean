@@ -20,18 +20,25 @@ const CustomRichTextSection = ({
     return null;
   }
 
+  const themeColor = globalSettings?.themeColor;
+
   return (
     <SectionWrapper
       sectionId={sectionId}
       style={{ marginTop: `${globalSettings?.sectionSpacing || 24}px` }}
     >
       <h3
-        className="font-bold border-b border-current pb-1"
-        style={{ fontSize: `${globalSettings?.headerSize || 18}px` }}
+        className="font-bold border-b pb-1"
+        style={{
+          fontSize: `${globalSettings?.headerSize || 18}px`,
+          color: themeColor,
+          borderColor: themeColor,
+          marginBottom: `${globalSettings?.paragraphSpacing}px`,
+        }}
       >
         {title}
       </h3>
-      <motion.div style={{ marginTop: `${globalSettings?.paragraphSpacing}px` }}>
+      <motion.div>
         <motion.div
           className="text-baseFont"
           style={{

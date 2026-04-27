@@ -1,9 +1,10 @@
 ## 미완료
 
-- [ ] 백업 폴더를 변경했을 때, 이전에 사용했던 백업 폴더에 대한 접근 권한이 삭제되는지 확인할 것.
-
 ## 완료
 
+- [x] 백업 폴더를 변경했을 때, 이전에 사용했던 백업 폴더에 대한 접근 권한이 삭제되는지 확인
+  - 확인 결과: 앱은 `syncDirectory` 키의 핸들을 새 폴더 핸들로 덮어써 이전 폴더 참조를 대체함
+  - 확인 결과: File System Access API 특성상 앱 코드에서 기존 폴더 권한을 명시적으로 revoke 하지는 않음(브라우저 권한 관리 영역)
 - [x] 신규 이력서 생성 시 기본 로케일 fallback을 `en`으로 정렬
   - `useResumeStore.createResume`의 `NEXT_LOCALE` 미존재 fallback을 `"en"`으로 조정해 `defaultLocale: "en"` 정책과 일치시킴
 - [x] JSON/PDF 가져오기 시 로케일에 맞는 초기 베이스 데이터 사용

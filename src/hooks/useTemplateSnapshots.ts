@@ -7,7 +7,7 @@ import {
 } from "@/lib/templatePreview";
 
 export const useTemplateSnapshots = (locale: string | null | undefined) => {
-  const resolvedLocale = isTemplatePreviewLocale(locale) ? locale : "zh";
+  const resolvedLocale = isTemplatePreviewLocale(locale) ? locale : "en";
 
   const snapshotMap = useMemo(
     () =>

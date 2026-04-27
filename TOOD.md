@@ -1,7 +1,16 @@
 ## 미완료
 
+- [ ] 신규 이력서 생성 시 기본 로케일 fallback을 `en`으로 정렬
+  - `useResumeStore.createResume`의 `NEXT_LOCALE` 미존재 fallback이 `"zh"`로 되어 있어 `defaultLocale: "en"` 정책과 불일치
+- [ ] JSON/PDF 가져오기 시 로케일에 맞는 초기 베이스 데이터 사용
+  - 가져오기 과정에서 `initialResumeState` 고정 기반으로 병합되어 누락 필드에 중국어 기본값이 섞일 수 있음
+- [ ] 백업 폴더를 변경했을 때, 이전에 사용했던 백업 폴더에 대한 접근 권한이 삭제되는지 확인할 것.
+
 ## 완료
 
+- [x] 템플릿 미리보기(CreateResumeModal)에서 로케일에 맞는 초기 데이터 사용
+  - `CreateResumeModal`의 미리보기 베이스를 `zh`/`en` 기준으로 분기해 한국어 환경에서 중국어 샘플이 노출되지 않도록 조정
+  - 스냅샷/템플릿 미리보기 fallback도 `zh` 기본 대신 `en` 기본으로 정렬
 - [x] 리치 텍스트 모듈과 이미지 그리드 모듈은 테마 색깔 적용이 안됨
   - 모듈 제목의 색상 및 하단 보더에 `globalSettings.themeColor`를 적용
 - [x] 항목 리스트형 커스텀 섹션에 본문 내용이 없어도 줄이 비워져 부자연스러운 빈 공간이 생김

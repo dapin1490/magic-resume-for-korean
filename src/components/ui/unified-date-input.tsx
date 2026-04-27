@@ -16,6 +16,9 @@ interface UnifiedDateInputProps {
 }
 
 const DATE_WITH_DAY_PATTERN = /^\d{4}[./-]\d{2}[./-]\d{1,2}$/;
+const MIN_DAY_VALUE = 1;
+const MAX_DAY_VALUE = 31;
+const DAY_DIGIT_LENGTH = 2;
 
 export function UnifiedDateInput({
   value,
@@ -48,13 +51,19 @@ export function UnifiedDateInput({
     }
   };
 
-  const formatCalendarDate = (date: CalendarDate, includeDay: boolean, dayText?: string): string => {
+  const formatCalendarDate = (
+    date: CalendarDate,
+    includeDay: boolean,
+    dayText?: string,
+    shouldPadDay = true
+  ): string => {
     const year = date.year;
     const month = date.month.toString().padStart(2, "0");
     if (!includeDay) {
       return `${year}/${month}`;
     }
-    const day = dayText ?? date.day.toString().padStart(2, "0");
+    const rawDayText = dayText ?? date.day.toString();
+    const day = shouldPadDay ? rawDayText.padStart(DAY_DIGIT_LENGTH, "0") : rawDayText;
     return `${year}/${month}/${day}`;
   };
 
@@ -78,8 +87,11 @@ export function UnifiedDateInput({
 
   const buildOutputValue = (date: CalendarDate, dayText: string) => {
     const parsedDay = Number.parseInt(dayText, 10);
-    const shouldIncludeDay = Number.isInteger(parsedDay) && parsedDay >= 1 && parsedDay <= 31;
-    onChange(formatCalendarDate(date, shouldIncludeDay, dayText));
+    const shouldIncludeDay =
+      Number.isInteger(parsedDay) &&
+      parsedDay >= MIN_DAY_VALUE &&
+      parsedDay <= MAX_DAY_VALUE;
+    onChange(formatCalendarDate(date, shouldIncludeDay, dayText, false));
   };
 
   const handleDateChange = (date: CalendarDate | null) => {
@@ -101,9 +113,28 @@ export function UnifiedDateInput({
       return;
     }
     const parsedDay = Number.parseInt(dayOnlyText, 10);
-    if (Number.isInteger(parsedDay) && parsedDay >= 1 && parsedDay <= 31) {
-      onChange(formatCalendarDate(selectedDate, true, dayOnlyText));
+    if (
+      Number.isInteger(parsedDay) &&
+      parsedDay >= MIN_DAY_VALUE &&
+      parsedDay <= MAX_DAY_VALUE
+    ) {
+      onChange(formatCalendarDate(selectedDate, true, dayOnlyText, false));
     }
+  };
+
+  const handleOptionalDayBlur = () => {
+    if (!selectedDate || !optionalDay) return;
+    const parsedDay = Number.parseInt(optionalDay, 10);
+    const isValidDay =
+      Number.isInteger(parsedDay) &&
+      parsedDay >= MIN_DAY_VALUE &&
+      parsedDay <= MAX_DAY_VALUE;
+    if (!isValidDay) return;
+    const paddedDayText = optionalDay.padStart(DAY_DIGIT_LENGTH, "0");
+    if (paddedDayText !== optionalDay) {
+      setOptionalDay(paddedDayText);
+    }
+    onChange(formatCalendarDate(selectedDate, true, paddedDayText, true));
   };
 
   return (
@@ -130,6 +161,7 @@ export function UnifiedDateInput({
           <Input
             value={optionalDay}
             onChange={(event) => handleOptionalDayChange(event.target.value)}
+            onBlur={handleOptionalDayBlur}
             placeholder="DD"
             inputMode="numeric"
             maxLength={2}

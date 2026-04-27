@@ -17,6 +17,9 @@ interface UnifiedDateRangeInputProps {
 const SEPARATOR = " - ";
 const PRESENT_VALUES = new Set(["Present", "Now", "至今"]);
 const DATE_WITH_DAY_PATTERN = /^\d{4}[./-]\d{2}[./-]\d{1,2}$/;
+const MIN_DAY_VALUE = 1;
+const MAX_DAY_VALUE = 31;
+const DAY_DIGIT_LENGTH = 2;
 
 const extractOptionalDay = (rawValue: string): string => {
   const normalizedValue = rawValue.trim().replace(/[.-]/g, "/");
@@ -98,23 +101,36 @@ export function UnifiedDateRangeInput({
   ) => {
     const parsedStartDay = Number.parseInt(optionalDays.start, 10);
     const parsedEndDay = Number.parseInt(optionalDays.end, 10);
-    const shouldIncludeStartDay = Number.isInteger(parsedStartDay) && parsedStartDay >= 1 && parsedStartDay <= 31;
-    const shouldIncludeEndDay = Number.isInteger(parsedEndDay) && parsedEndDay >= 1 && parsedEndDay <= 31;
+    const shouldIncludeStartDay =
+      Number.isInteger(parsedStartDay) &&
+      parsedStartDay >= MIN_DAY_VALUE &&
+      parsedStartDay <= MAX_DAY_VALUE;
+    const shouldIncludeEndDay =
+      Number.isInteger(parsedEndDay) &&
+      parsedEndDay >= MIN_DAY_VALUE &&
+      parsedEndDay <= MAX_DAY_VALUE;
 
-    const format = (dateValue: CalendarDate, includeDay: boolean, dayText: string) => {
+    const format = (
+      dateValue: CalendarDate,
+      includeDay: boolean,
+      dayText: string,
+      shouldPadDay = true
+    ) => {
       const year = dateValue.year;
       const month = dateValue.month.toString().padStart(2, "0");
       if (!includeDay) {
         return `${year}/${month}`;
       }
-      const day = dayText;
+      const day = shouldPadDay ? dayText.padStart(DAY_DIGIT_LENGTH, "0") : dayText;
       return `${year}/${month}/${day}`;
     };
 
-    const startStr = newStart ? format(newStart, shouldIncludeStartDay, optionalDays.start) : "";
+    const startStr = newStart
+      ? format(newStart, shouldIncludeStartDay, optionalDays.start, false)
+      : "";
     const endStr = isPresent
       ? "Present"
-      : (newEnd ? format(newEnd, shouldIncludeEndDay, optionalDays.end) : "");
+      : (newEnd ? format(newEnd, shouldIncludeEndDay, optionalDays.end, false) : "");
 
     if (!startStr && !endStr) {
       onChange("");
@@ -149,11 +165,14 @@ export function UnifiedDateRangeInput({
     const dayOnlyText = rawDay.replace(/\D/g, "").slice(0, 2);
     setOptionalDays((previousDays) => ({ ...previousDays, [target]: dayOnlyText }));
     const parsedDay = Number.parseInt(dayOnlyText, 10);
-    const isValidDay = Number.isInteger(parsedDay) && parsedDay >= 1 && parsedDay <= 31;
+    const isValidDay =
+      Number.isInteger(parsedDay) &&
+      parsedDay >= MIN_DAY_VALUE &&
+      parsedDay <= MAX_DAY_VALUE;
     if (target === "start" && range.start) {
       const shouldIncludeDay = dayOnlyText ? isValidDay : false;
       const monthValue = `${range.start.year}/${range.start.month.toString().padStart(2, "0")}`;
-      const nextStartText = shouldIncludeDay ? `${monthValue}/${dayOnlyText.padStart(2, "0")}` : monthValue;
+      const nextStartText = shouldIncludeDay ? `${monthValue}/${dayOnlyText}` : monthValue;
       const [currentStartValue = "", currentEndValue = ""] = value.includes(SEPARATOR)
         ? value.split(SEPARATOR)
         : [value, ""];
@@ -167,7 +186,49 @@ export function UnifiedDateRangeInput({
     if (target === "end" && range.end && !isPresent) {
       const shouldIncludeDay = dayOnlyText ? isValidDay : false;
       const monthValue = `${range.end.year}/${range.end.month.toString().padStart(2, "0")}`;
-      const nextEndText = shouldIncludeDay ? `${monthValue}/${dayOnlyText.padStart(2, "0")}` : monthValue;
+      const nextEndText = shouldIncludeDay ? `${monthValue}/${dayOnlyText}` : monthValue;
+      const [currentStartValue = "", currentEndValue = ""] = value.includes(SEPARATOR)
+        ? value.split(SEPARATOR)
+        : [value, ""];
+      const nextStartText = currentStartValue;
+      if (!nextStartText) {
+        onChange(nextEndText);
+      } else {
+        onChange(`${nextStartText}${SEPARATOR}${nextEndText}`);
+      }
+    }
+  };
+
+  const handleOptionalDayBlur = (target: "start" | "end") => {
+    const rawDayText = optionalDays[target];
+    if (!rawDayText) return;
+    const parsedDay = Number.parseInt(rawDayText, 10);
+    const isValidDay =
+      Number.isInteger(parsedDay) &&
+      parsedDay >= MIN_DAY_VALUE &&
+      parsedDay <= MAX_DAY_VALUE;
+    if (!isValidDay) return;
+    const paddedDayText = rawDayText.padStart(DAY_DIGIT_LENGTH, "0");
+    if (paddedDayText !== rawDayText) {
+      setOptionalDays((previousDays) => ({ ...previousDays, [target]: paddedDayText }));
+    }
+    if (target === "start" && range.start) {
+      const startMonthText = `${range.start.year}/${range.start.month.toString().padStart(2, "0")}`;
+      const nextStartText = `${startMonthText}/${paddedDayText}`;
+      const [currentStartValue = "", currentEndValue = ""] = value.includes(SEPARATOR)
+        ? value.split(SEPARATOR)
+        : [value, ""];
+      const nextEndText = currentEndValue || (isPresent ? "Present" : "");
+      if (!nextEndText) {
+        onChange(nextStartText);
+      } else {
+        onChange(`${nextStartText}${SEPARATOR}${nextEndText}`);
+      }
+      return;
+    }
+    if (target === "end" && range.end && !isPresent) {
+      const endMonthText = `${range.end.year}/${range.end.month.toString().padStart(2, "0")}`;
+      const nextEndText = `${endMonthText}/${paddedDayText}`;
       const [currentStartValue = "", currentEndValue = ""] = value.includes(SEPARATOR)
         ? value.split(SEPARATOR)
         : [value, ""];
@@ -203,6 +264,7 @@ export function UnifiedDateRangeInput({
               <Input
                 value={optionalDays.start}
                 onChange={(event) => handleOptionalDayChange("start", event.target.value)}
+                onBlur={() => handleOptionalDayBlur("start")}
                 placeholder="DD"
                 inputMode="numeric"
                 maxLength={2}
@@ -233,6 +295,7 @@ export function UnifiedDateRangeInput({
               <Input
                 value={optionalDays.end}
                 onChange={(event) => handleOptionalDayChange("end", event.target.value)}
+                onBlur={() => handleOptionalDayBlur("end")}
                 placeholder="DD"
                 inputMode="numeric"
                 maxLength={2}

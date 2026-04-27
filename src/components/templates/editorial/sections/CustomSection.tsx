@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
 import SectionWrapper from "../../shared/SectionWrapper";
 import { GlobalSettings, CustomItem } from "@/types/resume";
-import { normalizeRichTextContent } from "@/lib/richText";
+import { hasMeaningfulRichTextContent, normalizeRichTextContent } from "@/lib/richText";
 import { formatDateString } from "@/lib/utils";
 import { useLocale } from "@/i18n/compat/client";
 
@@ -16,7 +16,9 @@ interface CustomSectionProps {
 
 const CustomSection = ({ sectionId, title, items, globalSettings, showTitle = true }: CustomSectionProps) => {
   const locale = useLocale();
-  const visibleItems = items?.filter((item) => item.visible && (item.title || item.description));
+  const visibleItems = items?.filter(
+    (item) => item.visible && (item.title || hasMeaningfulRichTextContent(item.description))
+  );
 
   return (
     <SectionWrapper sectionId={sectionId} className="w-full" style={{ marginTop: `${globalSettings?.sectionSpacing || 32}px` }}>
@@ -37,7 +39,7 @@ const CustomSection = ({ sectionId, title, items, globalSettings, showTitle = tr
                 {formatDateString(item.dateRange, locale)}
               </span>
             </motion.div>
-            {item.description && (
+            {hasMeaningfulRichTextContent(item.description) && (
               <motion.div
                 layout="position"
                 className="mt-2 text-gray-800 prose prose-sm max-w-none prose-p:my-1 [&>ul]:pl-4 [&>ul]:mt-0 [&>ul>li]:my-0.5 marker:text-black"

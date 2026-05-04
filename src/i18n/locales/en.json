@@ -118,6 +118,12 @@
       "create": "Create Resume",
       "newResume": "New Resume",
       "newResumeDescription": "Create a new resume to get started.",
+      "createdLabel": "Created",
+      "updatedLabel": "Updated",
+      "viewMode": {
+        "card": "Card View",
+        "list": "List View"
+      },
       "import": "Import Resume",
       "untitled": "Untitled Resume",
       "importSuccess": "Configuration imported successfully",

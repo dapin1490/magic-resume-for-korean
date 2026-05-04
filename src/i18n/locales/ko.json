@@ -118,6 +118,12 @@
       "create": "새 이력서",
       "newResume": "새 이력서",
       "newResumeDescription": "새 이력서를 생성해 시작하세요.",
+      "createdLabel": "생성",
+      "updatedLabel": "수정",
+      "viewMode": {
+        "card": "카드 보기",
+        "list": "리스트 보기"
+      },
       "import": "이력서 가져오기",
       "untitled": "제목 없는 이력서",
       "importSuccess": "설정 가져오기 성공",

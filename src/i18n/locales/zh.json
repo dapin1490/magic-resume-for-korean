@@ -118,6 +118,12 @@
       "create": "新建简历",
       "newResume": "新建简历",
       "newResumeDescription": "创建一个新简历以开始。",
+      "createdLabel": "创建",
+      "updatedLabel": "更新",
+      "viewMode": {
+        "card": "卡片视图",
+        "list": "列表视图"
+      },
       "import": "导入简历",
       "untitled": "未命名简历",
       "importSuccess": "配置导入成功",

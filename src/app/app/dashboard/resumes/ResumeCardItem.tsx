@@ -53,6 +53,18 @@ export const ResumeCardItem = ({
         DEFAULT_TEMPLATES[0];
     const templateNameKey =
         activeTemplate.id === "left-right" ? "leftRight" : activeTemplate.id;
+    const createdAtDate = new Date(resume.createdAt);
+    const isCreatedAtValid = Number.isFinite(createdAtDate.getTime());
+    const formattedCreatedAt = isCreatedAtValid
+        ? new Intl.DateTimeFormat(locale, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+        }).format(createdAtDate)
+        : "";
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -111,14 +123,8 @@ export const ResumeCardItem = ({
                                 {resume.title || t("dashboard.resumes.untitled")}
                             </span>
                             <span className="text-[11px] text-gray-600 dark:text-gray-300 mt-0.5 font-medium">
-                                {t(`dashboard.templates.${templateNameKey}.name`)} · {new Intl.DateTimeFormat(locale, {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    hour12: false
-                                }).format(new Date(resume.createdAt))}
+                                {t(`dashboard.templates.${templateNameKey}.name`)}
+                                {formattedCreatedAt ? ` ${formattedCreatedAt}` : ""}
                             </span>
                         </div>
                     </div>

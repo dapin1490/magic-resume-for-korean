@@ -124,6 +124,11 @@
         "card": "卡片视图",
         "list": "列表视图"
       },
+      "renameTitle": "修改标题",
+      "renameDescription": "请输入新的简历标题。",
+      "titleInputPlaceholder": "简历标题",
+      "titleUpdated": "简历标题已更新",
+      "titleEmpty": "标题不能为空",
       "import": "导入简历",
       "untitled": "未命名简历",
       "importSuccess": "配置导入成功",

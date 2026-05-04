@@ -45,6 +45,7 @@ export const ResumeWorkbench = () => {
         addResume,
         deleteResume,
         createResume,
+        updateResume,
     } = useResumeStore();
     const {
         geminiApiKey,
@@ -429,6 +430,7 @@ export const ResumeWorkbench = () => {
                                         locale={locale}
                                         setActiveResume={setActiveResume}
                                         duplicateResume={duplicateResume}
+                                        updateResume={updateResume}
                                         router={router}
                                         deleteResume={deleteResume}
                                         index={index}
@@ -468,6 +470,7 @@ export const ResumeWorkbench = () => {
                                     locale={locale}
                                     setActiveResume={setActiveResume}
                                     duplicateResume={duplicateResume}
+                                    updateResume={updateResume}
                                     router={router}
                                     deleteResume={deleteResume}
                                 />

@@ -124,6 +124,11 @@
         "card": "Card View",
         "list": "List View"
       },
+      "renameTitle": "Rename Title",
+      "renameDescription": "Enter a new resume title.",
+      "titleInputPlaceholder": "Resume title",
+      "titleUpdated": "Resume title updated",
+      "titleEmpty": "Title cannot be empty",
       "import": "Import Resume",
       "untitled": "Untitled Resume",
       "importSuccess": "Configuration imported successfully",

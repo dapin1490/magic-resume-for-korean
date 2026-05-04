@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Pencil } from "lucide-react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -21,6 +24,7 @@ interface ResumeListItemProps {
     locale: string;
     setActiveResume: (id: string) => void;
     duplicateResume: (id: string) => string;
+    updateResume: (resumeId: string, data: any) => void;
     router: any;
     deleteResume: (resume: any) => void;
 }
@@ -32,9 +36,12 @@ export const ResumeListItem = ({
     locale,
     setActiveResume,
     duplicateResume,
+    updateResume,
     router,
     deleteResume,
 }: ResumeListItemProps) => {
+    const [isEditingTitle, setIsEditingTitle] = useState(false);
+    const [titleDraft, setTitleDraft] = useState(resume.title || "");
     const activeTemplate =
         DEFAULT_TEMPLATES.find((template) => template.id === resume.templateId) ??
         DEFAULT_TEMPLATES[0];
@@ -67,13 +74,75 @@ export const ResumeListItem = ({
         }).format(updatedAtDate)
         : "";
 
+    const startInlineEdit = () => {
+        setTitleDraft(resume.title || "");
+        setIsEditingTitle(true);
+    };
+
+    const cancelInlineEdit = () => {
+        setTitleDraft(resume.title || "");
+        setIsEditingTitle(false);
+    };
+
+    const saveInlineEdit = () => {
+        const trimmedTitle = titleDraft.trim();
+        if (!trimmedTitle) {
+            toast.error(t("dashboard.resumes.titleEmpty"));
+            return;
+        }
+        updateResume(id, { title: trimmedTitle });
+        setIsEditingTitle(false);
+        toast.success(t("dashboard.resumes.titleUpdated"));
+    };
+
     return (
         <Card className="p-4 sm:p-5 border border-border">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div className="min-w-0 space-y-1.5">
-                    <div className="text-base font-semibold truncate text-foreground">
-                        {resume.title || t("dashboard.resumes.untitled")}
-                    </div>
+                    {isEditingTitle ? (
+                        <div className="flex flex-wrap items-center gap-2">
+                            <Input
+                                value={titleDraft}
+                                onChange={(event) => setTitleDraft(event.target.value)}
+                                placeholder={t("dashboard.resumes.titleInputPlaceholder")}
+                                className="max-w-sm"
+                                onKeyDown={(event) => {
+                                    if (event.key === "Enter") {
+                                        event.preventDefault();
+                                        saveInlineEdit();
+                                    }
+                                    if (event.key === "Escape") {
+                                        event.preventDefault();
+                                        cancelInlineEdit();
+                                    }
+                                }}
+                            />
+                            <Button size="sm" onClick={saveInlineEdit}>
+                                {t("common.confirm")}
+                            </Button>
+                            <Button size="sm" variant="outline" onClick={cancelInlineEdit}>
+                                {t("common.cancel")}
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="flex items-center justify-between gap-2">
+                            <div
+                                className="text-base font-semibold truncate text-foreground"
+                                onDoubleClick={startInlineEdit}
+                            >
+                                {resume.title || t("dashboard.resumes.untitled")}
+                            </div>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 shrink-0"
+                                onClick={startInlineEdit}
+                                aria-label={t("dashboard.resumes.renameTitle")}
+                            >
+                                <Pencil className="w-4 h-4" />
+                            </Button>
+                        </div>
+                    )}
                     <div className="text-sm text-muted-foreground">
                         {t(`dashboard.templates.${templateNameKey}.name`)}
                     </div>

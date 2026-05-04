@@ -132,7 +132,13 @@ export const ResumeCardItem = ({
                     "dark:hover:border-primary/40"
                 )}
             >
-                <CardContent className="p-0 flex-1 relative bg-gray-50 dark:bg-gray-900 overflow-hidden cursor-pointer">
+                <CardContent
+                    className="p-0 flex-1 relative bg-gray-50 dark:bg-gray-900 overflow-hidden cursor-pointer"
+                    onClick={() => {
+                        setActiveResume(id);
+                        router.push(`/app/workbench/${id}`);
+                    }}
+                >
                     <div className="absolute inset-0 pb-6 flex items-center justify-center pointer-events-none transition-transform duration-300 group-hover:scale-[1.02] overflow-hidden" ref={containerRef}>
                         <div className="w-full h-full relative origin-top bg-white">
                             <div

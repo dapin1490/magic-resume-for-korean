@@ -324,11 +324,12 @@ export const useResumeStore = create(
       deleteResume: (resume) => {
         const resumeId = resume.id;
         set((state) => {
-          const { [resumeId]: _, activeResume, ...rest } = state.resumes;
+          const { [resumeId]: _, ...remainingResumes } = state.resumes;
+          const isDeletingActiveResume = state.activeResumeId === resumeId;
           return {
-            resumes: rest,
-            activeResumeId: null,
-            activeResume: null,
+            resumes: remainingResumes,
+            activeResumeId: isDeletingActiveResume ? null : state.activeResumeId,
+            activeResume: isDeletingActiveResume ? null : state.activeResume,
           };
         });
 

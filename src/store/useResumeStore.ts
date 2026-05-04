@@ -598,16 +598,34 @@ export const useResumeStore = create(
           };
           const updatedCustomData = {
             ...currentResume.customData,
-            [sectionId]: [
-              {
-                id: generateUUID(),
-                title: "Untitled Section",
-                subtitle: "",
-                dateRange: "",
-                description: "",
-                visible: true,
-              },
-            ],
+            [sectionId]:
+              sectionType === "education-list"
+                ? [
+                    {
+                      id: generateUUID(),
+                      title: "",
+                      subtitle: "",
+                      dateRange: "",
+                      description: "",
+                      visible: true,
+                      school: "School Name",
+                      major: "Major",
+                      degree: "Degree",
+                      gpa: "",
+                      startDate: "",
+                      endDate: "",
+                    },
+                  ]
+                : [
+                    {
+                      id: generateUUID(),
+                      title: "Untitled Section",
+                      subtitle: "",
+                      dateRange: "",
+                      description: "",
+                      visible: true,
+                    },
+                  ],
           };
           get().updateResume(activeResumeId, {
             customData: updatedCustomData,
@@ -680,18 +698,35 @@ export const useResumeStore = create(
         const { activeResumeId } = get();
         if (activeResumeId) {
           const currentResume = get().resumes[activeResumeId];
+          const sectionType =
+            currentResume.customSectionTypes?.[sectionId] || "entry-list";
           const updatedCustomData = {
             ...currentResume.customData,
             [sectionId]: [
               ...(currentResume.customData[sectionId] || []),
-              {
-                id: generateUUID(),
-                title: "Untitled Section",
-                subtitle: "",
-                dateRange: "",
-                description: "",
-                visible: true,
-              },
+              sectionType === "education-list"
+                ? {
+                    id: generateUUID(),
+                    title: "",
+                    subtitle: "",
+                    dateRange: "",
+                    description: "",
+                    visible: true,
+                    school: "School Name",
+                    major: "Major",
+                    degree: "Degree",
+                    gpa: "",
+                    startDate: "",
+                    endDate: "",
+                  }
+                : {
+                    id: generateUUID(),
+                    title: "Untitled Section",
+                    subtitle: "",
+                    dateRange: "",
+                    description: "",
+                    visible: true,
+                  },
             ],
           };
           get().updateResume(activeResumeId, { customData: updatedCustomData });

@@ -293,7 +293,8 @@
         "customSectionTypes": {
           "entryList": "항목 리스트 모듈",
           "richText": "리치 텍스트 모듈",
-          "imageGrid": "이미지 그리드 모듈"
+          "imageGrid": "이미지 그리드 모듈",
+          "educationList": "학력 리스트 모듈"
         },
         "standardSections": {
           "skills": "기술",

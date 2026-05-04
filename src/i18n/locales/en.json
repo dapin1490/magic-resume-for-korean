@@ -341,7 +341,8 @@
         "customSectionTypes": {
           "entryList": "Entry List Section",
           "richText": "Rich Text Section",
-          "imageGrid": "Image Grid Section"
+          "imageGrid": "Image Grid Section",
+          "educationList": "Education List Section"
         },
         "standardSections": {
           "skills": "Skills",

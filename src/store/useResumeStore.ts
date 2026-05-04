@@ -371,6 +371,8 @@ export const useResumeStore = create(
           activeResume: duplicatedResume,
         }));
 
+        syncResumeToFile(duplicatedResume);
+
         return newId;
       },
 

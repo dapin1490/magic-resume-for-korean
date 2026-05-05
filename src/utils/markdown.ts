@@ -297,6 +297,31 @@ const renderCustomSection = (title: string, items: CustomItem[]) => {
   return `## ${title}\n\n${blocks.join("\n\n")}`;
 };
 
+const renderCustomRichTextSection = (title: string, content?: string) => {
+  const markdownContent = markdownFromText(content);
+  if (!markdownContent) return "";
+  return `## ${title}\n\n${markdownContent}`;
+};
+
+const renderCustomImageGridSection = (
+  title: string,
+  images: ResumeData["customImageData"][string] = []
+) => {
+  const lines = images
+    .map((image, index) => {
+      const imageUrl = normalizeText(image.url);
+      if (!imageUrl) return "";
+      if (DATA_URL_REGEX.test(imageUrl)) {
+        return `- Image ${index + 1} (embedded image omitted)`;
+      }
+      return `- ![Image ${index + 1}](${imageUrl})`;
+    })
+    .filter(Boolean);
+
+  if (lines.length === 0) return "";
+  return `## ${title}\n\n${lines.join("\n")}`;
+};
+
 export const generateResumeMarkdown = (
   resume: ResumeData,
   options?: ResumeMarkdownOptions
@@ -332,6 +357,22 @@ export const generateResumeMarkdown = (
         content = renderCertificateSection(sectionTitle, resume);
         break;
       default: {
+        const sectionType = resume.customSectionTypes?.[section.id] || "entry-list";
+        if (sectionType === "rich-text") {
+          content = renderCustomRichTextSection(
+            sectionTitle,
+            resume.customTextData?.[section.id]
+          );
+          break;
+        }
+        if (sectionType === "image-grid") {
+          content = renderCustomImageGridSection(
+            sectionTitle,
+            resume.customImageData?.[section.id] || []
+          );
+          break;
+        }
+
         const customItems = resume.customData?.[section.id] || [];
         content = renderCustomSection(sectionTitle, customItems);
         break;

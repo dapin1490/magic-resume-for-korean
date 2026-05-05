@@ -118,6 +118,17 @@
       "create": "새 이력서",
       "newResume": "새 이력서",
       "newResumeDescription": "새 이력서를 생성해 시작하세요.",
+      "createdLabel": "생성",
+      "updatedLabel": "수정",
+      "viewMode": {
+        "card": "카드 보기",
+        "list": "리스트 보기"
+      },
+      "renameTitle": "제목 변경",
+      "renameDescription": "이력서 제목을 입력하세요.",
+      "titleInputPlaceholder": "이력서 제목",
+      "titleUpdated": "이력서 제목이 변경되었습니다",
+      "titleEmpty": "제목은 비워둘 수 없습니다",
       "import": "이력서 가져오기",
       "untitled": "제목 없는 이력서",
       "importSuccess": "설정 가져오기 성공",
@@ -293,7 +304,8 @@
         "customSectionTypes": {
           "entryList": "항목 리스트 모듈",
           "richText": "리치 텍스트 모듈",
-          "imageGrid": "이미지 그리드 모듈"
+          "imageGrid": "이미지 그리드 모듈",
+          "educationList": "학력 리스트 모듈"
         },
         "standardSections": {
           "skills": "기술",

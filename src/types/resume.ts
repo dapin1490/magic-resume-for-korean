@@ -128,7 +128,8 @@ export interface Certificate {
 export type CustomSectionLayoutType =
   | "entry-list"
   | "rich-text"
-  | "image-grid";
+  | "image-grid"
+  | "education-list";
 
 export type GlobalSettings = {
   themeColor?: string | undefined;
@@ -162,6 +163,12 @@ export interface CustomItem {
   dateRange: string;
   description: string;
   visible: boolean;
+  school?: string;
+  major?: string;
+  degree?: string;
+  gpa?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export const THEME_COLORS = [

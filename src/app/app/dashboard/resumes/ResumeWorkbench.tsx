@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations, useLocale } from "@/i18n/compat/client";
 import { useRouter } from "@/lib/navigation";
-import { Plus, Settings, AlertCircle } from "lucide-react";
+import { Plus, Settings, AlertCircle, LayoutGrid, List } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +21,7 @@ import { DEFAULT_TEMPLATES } from "@/config";
 import { CreateResumeModal } from "./CreateResumeModal";
 import { ImportResumeDialog } from "./ImportResumeDialog";
 import { ResumeCardItem } from "./ResumeCardItem";
+import { ResumeListItem } from "./ResumeListItem";
 import { AnimatedImportButton } from "./AnimatedImportButton";
 import {
     extractJsonContent,
@@ -32,6 +33,7 @@ import pdfWorkerUrl from "pdfjs-dist/legacy/build/pdf.worker.min.mjs?url";
 const MAX_PDF_IMPORT_PAGES = 3;
 const PDF_IMAGE_QUALITY = 0.82;
 const PDF_MAX_IMAGE_WIDTH = 1600;
+type ResumeListViewMode = "card" | "list";
 
 export const ResumeWorkbench = () => {
     const t = useTranslations();
@@ -43,6 +45,7 @@ export const ResumeWorkbench = () => {
         addResume,
         deleteResume,
         createResume,
+        updateResume,
     } = useResumeStore();
     const {
         geminiApiKey,
@@ -53,8 +56,14 @@ export const ResumeWorkbench = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
     const [isImporting, setIsImporting] = useState(false);
+    const [viewMode, setViewMode] = useState<ResumeListViewMode>("card");
     const jsonFileInputRef = useRef<HTMLInputElement>(null);
     const pdfFileInputRef = useRef<HTMLInputElement>(null);
+    const sortedResumes = Object.entries(resumes).sort(([, a], [, b]) => {
+        const dateA = new Date(a.createdAt || 0).getTime();
+        const dateB = new Date(b.createdAt || 0).getTime();
+        return dateB - dateA;
+    });
 
     useEffect(() => {
         const loadSavedConfig = async () => {
@@ -334,6 +343,26 @@ export const ResumeWorkbench = () => {
                         {t("dashboard.resumes.myResume")}
                     </h1>
                     <div className="flex items-center space-x-2">
+                        <div className="flex items-center rounded-md border border-border p-1 bg-background">
+                            <Button
+                                variant={viewMode === "card" ? "secondary" : "ghost"}
+                                size="sm"
+                                className="h-8 px-2"
+                                onClick={() => setViewMode("card")}
+                                aria-label={t("dashboard.resumes.viewMode.card")}
+                            >
+                                <LayoutGrid className="w-4 h-4" />
+                            </Button>
+                            <Button
+                                variant={viewMode === "list" ? "secondary" : "ghost"}
+                                size="sm"
+                                className="h-8 px-2"
+                                onClick={() => setViewMode("list")}
+                                aria-label={t("dashboard.resumes.viewMode.list")}
+                            >
+                                <List className="w-4 h-4" />
+                            </Button>
+                        </div>
                         <AnimatedImportButton onClick={() => setIsImportDialogOpen(true)} t={t} />
                         <motion.div
                             whileHover={{ scale: 1.05 }}
@@ -358,46 +387,41 @@ export const ResumeWorkbench = () => {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.3, delay: 0.2 }}
                 >
-                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6">
-                        <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                            onClick={() => setIsCreateModalOpen(true)}
-                        >
-                            <Card
-                                className={cn(
-                                    "relative border border-dashed cursor-pointer transition-all duration-200 aspect-[210/297] flex flex-col",
-                                    "hover:border-gray-400 hover:bg-gray-50",
-                                    "dark:hover:border-primary dark:hover:bg-primary/10"
-                                )}
+                    {viewMode === "card" ? (
+                        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6">
+                            <motion.div
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                                onClick={() => setIsCreateModalOpen(true)}
                             >
-                                <CardContent className="flex-1 p-0 text-center flex flex-col items-center justify-center">
-                                    <motion.div
-                                        className="mb-4 p-4 rounded-full bg-gray-100 dark:bg-primary/10"
-                                        whileHover={{ rotate: 90 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <Plus className="h-8 w-8 text-gray-600 dark:text-primary" />
-                                    </motion.div>
-                                    <CardTitle className="text-xl text-gray-900 dark:text-gray-100 px-4">
-                                        {t("dashboard.resumes.newResume")}
-                                    </CardTitle>
-                                    <CardDescription className="mt-2 text-gray-600 dark:text-gray-400 px-4">
-                                        {t("dashboard.resumes.newResumeDescription")}
-                                    </CardDescription>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
+                                <Card
+                                    className={cn(
+                                        "relative border border-dashed cursor-pointer transition-all duration-200 aspect-[210/297] flex flex-col",
+                                        "hover:border-gray-400 hover:bg-gray-50",
+                                        "dark:hover:border-primary dark:hover:bg-primary/10"
+                                    )}
+                                >
+                                    <CardContent className="flex-1 p-0 text-center flex flex-col items-center justify-center">
+                                        <motion.div
+                                            className="mb-4 p-4 rounded-full bg-gray-100 dark:bg-primary/10"
+                                            whileHover={{ rotate: 90 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <Plus className="h-8 w-8 text-gray-600 dark:text-primary" />
+                                        </motion.div>
+                                        <CardTitle className="text-xl text-gray-900 dark:text-gray-100 px-4">
+                                            {t("dashboard.resumes.newResume")}
+                                        </CardTitle>
+                                        <CardDescription className="mt-2 text-gray-600 dark:text-gray-400 px-4">
+                                            {t("dashboard.resumes.newResumeDescription")}
+                                        </CardDescription>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
 
-                        <AnimatePresence>
-                            {Object.entries(resumes)
-                                .sort(([, a], [, b]) => {
-                                    const dateA = new Date(a.createdAt || 0).getTime();
-                                    const dateB = new Date(b.createdAt || 0).getTime();
-                                    return dateB - dateA;
-                                })
-                                .map(([id, resume], index) => (
+                            <AnimatePresence>
+                                {sortedResumes.map(([id, resume], index) => (
                                     <ResumeCardItem
                                         key={id}
                                         id={id}
@@ -406,13 +430,53 @@ export const ResumeWorkbench = () => {
                                         locale={locale}
                                         setActiveResume={setActiveResume}
                                         duplicateResume={duplicateResume}
+                                        updateResume={updateResume}
                                         router={router}
                                         deleteResume={deleteResume}
                                         index={index}
                                     />
                                 ))}
-                        </AnimatePresence>
-                    </div>
+                            </AnimatePresence>
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            <Card
+                                className={cn(
+                                    "relative border border-dashed cursor-pointer transition-all duration-200",
+                                    "hover:border-gray-400 hover:bg-gray-50",
+                                    "dark:hover:border-primary dark:hover:bg-primary/10"
+                                )}
+                                onClick={() => setIsCreateModalOpen(true)}
+                            >
+                                <CardContent className="p-4 sm:p-5 flex items-center gap-3">
+                                    <Plus className="h-5 w-5 text-gray-600 dark:text-primary" />
+                                    <div>
+                                        <CardTitle className="text-base text-gray-900 dark:text-gray-100">
+                                            {t("dashboard.resumes.newResume")}
+                                        </CardTitle>
+                                        <CardDescription className="text-sm text-gray-600 dark:text-gray-400">
+                                            {t("dashboard.resumes.newResumeDescription")}
+                                        </CardDescription>
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            {sortedResumes.map(([id, resume]) => (
+                                <ResumeListItem
+                                    key={id}
+                                    id={id}
+                                    resume={resume}
+                                    t={t}
+                                    locale={locale}
+                                    setActiveResume={setActiveResume}
+                                    duplicateResume={duplicateResume}
+                                    updateResume={updateResume}
+                                    router={router}
+                                    deleteResume={deleteResume}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </motion.div>
 
                 <CreateResumeModal

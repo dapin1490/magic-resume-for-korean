@@ -118,6 +118,17 @@
       "create": "Create Resume",
       "newResume": "New Resume",
       "newResumeDescription": "Create a new resume to get started.",
+      "createdLabel": "Created",
+      "updatedLabel": "Updated",
+      "viewMode": {
+        "card": "Card View",
+        "list": "List View"
+      },
+      "renameTitle": "Rename Title",
+      "renameDescription": "Enter a new resume title.",
+      "titleInputPlaceholder": "Resume title",
+      "titleUpdated": "Resume title updated",
+      "titleEmpty": "Title cannot be empty",
       "import": "Import Resume",
       "untitled": "Untitled Resume",
       "importSuccess": "Configuration imported successfully",
@@ -341,7 +352,8 @@
         "customSectionTypes": {
           "entryList": "Entry List Section",
           "richText": "Rich Text Section",
-          "imageGrid": "Image Grid Section"
+          "imageGrid": "Image Grid Section",
+          "educationList": "Education List Section"
         },
         "standardSections": {
           "skills": "Skills",

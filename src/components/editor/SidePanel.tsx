@@ -185,6 +185,7 @@ export function SidePanel() {
       "entry-list": t("layout.customSectionTypes.entryList"),
       "rich-text": t("layout.customSectionTypes.richText"),
       "image-grid": t("layout.customSectionTypes.imageGrid"),
+      "education-list": t("layout.customSectionTypes.educationList"),
     };
     const newSection = {
       id: sectionId,
@@ -402,6 +403,13 @@ export function SidePanel() {
                   >
                     <Plus className="w-4 h-4" />
                     {t("layout.customSectionTypes.imageGrid")}
+                  </button>
+                  <button
+                    onClick={() => handleCreateSection("education-list")}
+                    className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors text-left"
+                  >
+                    <Plus className="w-4 h-4" />
+                    {t("layout.customSectionTypes.educationList")}
                   </button>
                 </div>
               </PopoverContent>
